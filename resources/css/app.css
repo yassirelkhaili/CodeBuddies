@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.parsley-errors-list.filled {
+    @apply text-red-500 dark:text-red-400;
+}
