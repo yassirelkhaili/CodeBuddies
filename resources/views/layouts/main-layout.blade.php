@@ -73,7 +73,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/theme.js'])
 </head>
 
-<body class="antialiased">
+<body class="antialiased bg-gray-50 dark:bg-gray-900">
     <x-nav />
     {{ $slot }}
 </body>
