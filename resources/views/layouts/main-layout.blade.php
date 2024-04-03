@@ -76,6 +76,7 @@
 <body class="antialiased bg-gray-50 dark:bg-gray-900">
     <x-nav />
     {{ $slot }}
+    <x-footer />
 </body>
 
 </html>

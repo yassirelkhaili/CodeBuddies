@@ -2,7 +2,7 @@
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto">
         <div class="flex">
             <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+                <img src={{ asset('assets/svgs/brandLogo.svg') }} class="h-8" alt="CodeBuddies Logo">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CodeBuddies</span>
             </a>
         </div>
@@ -20,7 +20,7 @@
             <ul
                 class="flex justify-center items-center font-medium flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
-                    <a href="#"
+                    <a href={{ route('home.index') }}
                         class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                         aria-current="page">Home</a>
                 </li>
