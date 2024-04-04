@@ -1,7 +1,8 @@
 <x-main_layout>
     <section class="bg-gray-50 dark:bg-gray-900 pt-8 mb-16">
         <div class="flex flex-col items-center justify-center px-6 mx-auto md:h-screen">
-            <a href={{ route('home.index') }} class="flex gap-3 items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+            <a href={{ route('home.index') }}
+                class="flex gap-3 items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                 <img src={{ asset('assets/svgs/brandLogo.svg') }} class="h-8" alt="CodeBuddies Logo">
                 CodeBuddies
             </a>
@@ -11,6 +12,16 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Sign in to your account
                     </h1>
+                    @if ($errors->any())
+                        <div class="p-4 mb-4 text-sm text-red-600 rounded-lg bg-red-50 dark:bg-gray-700" role="alert">
+                            <span class="font-medium">Form Submission Errors:</span>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>• {{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" id="login-form"
                         data-parsley-validate="" method="POST">
                         @csrf
@@ -35,7 +46,7 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-start">
                                 <div class="flex items-center h-5">
-                                    <input id="remember" aria-describedby="remember" type="checkbox"
+                                    <input name="remember" id="remember" aria-describedby="remember" type="checkbox"
                                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800">
                                 </div>
                                 <div class="ml-3 text-sm">

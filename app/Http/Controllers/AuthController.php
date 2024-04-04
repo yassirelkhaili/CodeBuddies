@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Interfaces\UserRepositoryInterface;
@@ -29,7 +30,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -39,14 +40,14 @@ class AuthController extends Controller
         }
 
         $user = $this->userRepository->create([
-            'name' => $request->name,
+            'name' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        
         auth()->login($user);
 
-        return redirect()->route('home.index');
+        return redirect()->route('home.index')->with('success', 'Account created succesfully');
     }
 
     public function login(Request $request)
@@ -61,9 +62,17 @@ class AuthController extends Controller
         }
 
         if (auth()->attempt($request->only('email', 'password'), $request->filled('remember'))) {
-            return redirect()->route('home.index');
+            return redirect()->route('home.index')->with('success', 'Welcome back!');
         }
 
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login.index')->with('status', 'You have been logged out successfully.');
     }
 }

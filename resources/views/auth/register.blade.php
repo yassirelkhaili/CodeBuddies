@@ -1,7 +1,8 @@
 <x-main_layout>
-    <section class="bg-gray-50 dark:bg-gray-900 pt-32">
+    <section class="bg-gray-50 dark:bg-gray-900 pt-32 pb-32">
         <div class="flex flex-col items-center justify-center px-6 mx-auto md:h-screen">
-            <a href={{ route('home.index') }} class="flex gap-3 items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+            <a href={{ route('home.index') }}
+                class="flex gap-3 items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                 <img src={{ asset('assets/svgs/brandLogo.svg') }} class="h-8" alt="CodeBuddies Logo">
                 CodeBuddies
             </a>
@@ -11,7 +12,18 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Create an account
                     </h1>
-                    <form class="space-y-4 md:space-y-6" action="{{ route('register') }}" data-parsley-validate method="POST">
+                    @if ($errors->any())
+                        <div class="p-4 mb-4 text-sm text-red-600 rounded-lg bg-red-50 dark:bg-gray-700" role="alert">
+                            <span class="font-medium">Form Submission Errors:</span>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>• {{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form class="space-y-4 md:space-y-6" action="{{ route('register') }}" data-parsley-validate
+                        method="POST">
                         @csrf
                         <div>
                             <label for="username"
@@ -41,10 +53,11 @@
                                 data-parsley-error-message="Password must be at least 8 characters long.">
                         </div>
                         <div>
-                            <label for="confirm-password"
+                            <label for="password_confirmation"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
                                 password</label>
-                            <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••"
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                placeholder="••••••••"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required="" data-parsley-required="true" data-parsley-equalto="#password"
                                 data-parsley-trigger="change focusout"
