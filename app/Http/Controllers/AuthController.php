@@ -84,9 +84,9 @@ class AuthController extends Controller
         return view('auth.forget');
     }
 
-    public function indexResetPasswordForm()
+    public function indexResetPasswordForm(String $token)
     {
-        return view('auth.reset');
+        return view('auth.reset', ['token' => $token]);
     }
 
     public function submitResetPasswordForm(Request $request)

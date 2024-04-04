@@ -20,6 +20,6 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware(AuthMiddlew
 Route::get('/forget-password', [AuthController::class, 'indexForgetPasswordForm'])->name('forget-password.index');
 Route::post('/forget-password', [AuthController::class, 'submitForgetPasswordForm'])->name('forget-password');
 
-Route::get('/reset-password/{token}', [AuthController::class, 'indexResetPasswordForm'])->name('reset-password.index');
+Route::get('/reset-password/{token}', [AuthController::class, 'indexResetPasswordForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'])->name('reset-password');
 

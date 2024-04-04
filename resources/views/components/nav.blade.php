@@ -1,7 +1,7 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900 shadow-md fixed z-50 w-screen py-4 pl-4 pr-8">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto">
         <div class="flex">
-            <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <a href="{{ route('home.index') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src={{ asset('assets/svgs/brandLogo.svg') }} class="h-8" alt="CodeBuddies Logo">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CodeBuddies</span>
             </a>
@@ -71,10 +71,10 @@
                             </ul>
                             <div class="py-1">
                                 <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit"
-                                    class="flex justify-start px-4 w-full py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
-                                    out</button>
+                                    @csrf
+                                    <button type="submit"
+                                        class="flex justify-start px-4 w-full py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                                        out</button>
                                 </form>
                             </div>
                         </div>

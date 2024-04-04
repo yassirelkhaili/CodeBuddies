@@ -22,9 +22,10 @@
                             </ul>
                         </div>
                     @endif
-                    <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" id="login-form"
+                    <form class="space-y-4 md:space-y-6" action="{{ route('reset-password') }}" id="login-form"
                         data-parsley-validate="" method="POST">
                         @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
                         <div>
                             <label for="email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>

@@ -12,6 +12,11 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Forget password
                     </h1>
+                    @session('status')
+                        <div class="p-4 mb-4 text-sm text-green-500 rounded-lg bg-red-50 dark:bg-gray-700" role="alert">
+                            <span class="font-medium">Status:</span> {{ $value }}
+                        </div>
+                    @endsession
                     @if ($errors->any())
                         <div class="p-4 mb-4 text-sm text-red-600 rounded-lg bg-red-50 dark:bg-gray-700" role="alert">
                             <span class="font-medium">Form Submission Errors:</span>
@@ -22,7 +27,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" id="login-form"
+                    <form class="space-y-4 md:space-y-6" action="{{ route('forget-password') }}" id="login-form"
                         data-parsley-validate="" method="POST">
                         @csrf
                         <div>
@@ -35,7 +40,8 @@
                                 data-parsley-error-message="Please enter a valid email.">
                         </div>
                         <button type="submit"
-                            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Send password link</button>
+                            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Send
+                            password link</button>
                     </form>
                 </div>
             </div>
