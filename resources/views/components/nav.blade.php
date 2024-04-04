@@ -1,7 +1,7 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900 shadow-md fixed z-50 w-screen py-4 pl-4 pr-8">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto">
         <div class="flex">
-            <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <a href="{{ route('home.index') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src={{ asset('assets/svgs/brandLogo.svg') }} class="h-8" alt="CodeBuddies Logo">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CodeBuddies</span>
             </a>
@@ -39,12 +39,47 @@
                         Profiles</a>
                 </li>
                 <li class="flex justify-center items-center gap-3">
-                    <a href={{ route('login.index') }}
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Log
-                        in</a>
-                    <a href={{ route('register.index') }}
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign
-                        up</a>
+                    @guest
+                        <a href={{ route('login.index') }}
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Log
+                            in</a>
+                        <a href={{ route('register.index') }}
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign
+                            up</a>
+                    @endguest
+                    @auth
+
+                        <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown"
+                            data-dropdown-placement="bottom-start" class="w-10 h-10 rounded cursor-pointer"
+                            src="/docs/images/people/profile-picture-5.jpg" alt="User dropdown">
+                        <!-- Dropdown menu -->
+                        <div id="userDropdown"
+                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                            <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                                <div>{{ auth()->user()->name }}</div>
+                                <div class="font-medium truncate">{{ auth()->user()->email }}</div>
+                            </div>
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
+                                <li>
+                                    <a href="#"
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                                </li>
+                            </ul>
+                            <div class="py-1">
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="flex justify-start px-4 w-full py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                                        out</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    @endauth
                 </li>
                 <li>
                     <button id="theme-toggle" type="button"
