@@ -17,9 +17,9 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::post('logout', [AuthController::class, 'logout'])->middleware(AuthMiddleware::class)->name('logout');
 
-Route::get('/forget-password', [AuthController::class, 'index'])->name('forget.password.get');
-Route::post('/forget-password', [AuthController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::get('/forget-password', [AuthController::class, 'indexForgetPasswordForm'])->name('forget-password.index');
+Route::post('/forget-password', [AuthController::class, 'submitForgetPasswordForm'])->name('forget-password');
 
-Route::get('/reset-password/{token}', [AuthController::class, 'index'])->name('reset.password.get');
-Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+Route::get('/reset-password/{token}', [AuthController::class, 'indexResetPasswordForm'])->name('reset-password.index');
+Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'])->name('reset-password');
 

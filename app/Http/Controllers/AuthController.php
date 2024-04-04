@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Validator;
 use App\Interfaces\UserRepositoryInterface;
 
@@ -44,7 +47,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        
+
         auth()->login($user);
 
         return redirect()->route('home.index')->with('success', 'Account created succesfully');
@@ -74,5 +77,62 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login.index')->with('status', 'You have been logged out successfully.');
+    }
+
+    public function indexForgetPasswordForm()
+    {
+        return view('auth.forget');
+    }
+
+    public function indexResetPasswordForm()
+    {
+        return view('auth.reset');
+    }
+
+    public function submitResetPasswordForm(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
+
+    public function submitForgetPasswordForm(Request $request)
+    {
+        $validator = Validator::make($request->all(), ['email' => 'required|email']);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 }
