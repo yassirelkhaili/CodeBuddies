@@ -36,7 +36,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status-profile', 'Your profile has been updated');
     }
 
     /**
@@ -64,13 +64,13 @@ class ProfileController extends Controller
     {
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
-        ]);
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);        
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('status', 'Your password has been updated');
+        return back()->with('status-password', 'Your password has been updated');
     }
 }
