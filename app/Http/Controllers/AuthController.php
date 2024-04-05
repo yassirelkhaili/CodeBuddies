@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,27 +11,28 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Validator;
 use App\Interfaces\UserRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
 
 class AuthController extends Controller
 {
-    protected $userRepository;
+    protected UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
 
-    public function indexLoginPage()
+    public function indexLoginPage(): View
     {
         return view('auth.login');
     }
 
-    public function indexRegisterPage()
+    public function indexRegisterPage(): View
     {
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
@@ -53,7 +55,7 @@ class AuthController extends Controller
         return redirect()->route('home.index')->with('success', 'Account created succesfully');
     }
 
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -71,7 +73,7 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
