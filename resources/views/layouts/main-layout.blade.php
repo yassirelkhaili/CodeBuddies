@@ -125,7 +125,7 @@
             });
         });
     </script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/ts/app.ts'])
 </head>
 
 <body class="antialiased bg-gray-50 dark:bg-gray-900">
