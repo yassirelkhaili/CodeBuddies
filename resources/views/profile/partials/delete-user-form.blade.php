@@ -13,8 +13,8 @@
         id="delete-user-button"
     >{{ __('Delete Account') }}</x-danger-button>
 
-    <x-modal name="confirm-user-deletion" id="delete-user-modal">
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+    <x-modal name="confirm-user-deletion">
+        <form method="post" action="{{ route('profile.destroy') }}" class="p-6 hidden" id="delete-user-form">
             @csrf
             @method('delete')
 
@@ -41,7 +41,7 @@
             </div>
 
             <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
+                <x-secondary-button id="cancel-delete-modal">
                     {{ __('Cancel') }}
                 </x-secondary-button>
 
