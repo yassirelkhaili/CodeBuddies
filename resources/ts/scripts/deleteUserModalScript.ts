@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
 
         document.addEventListener("click", (event: MouseEvent): void => {
             const eventTarget = event.target as HTMLElement;
-            (!deleteModal.contains(eventTarget) && isDeleteModalOpen) && toggleModal();
+            if (deleteModal) (!deleteModal.contains(eventTarget) && isDeleteModalOpen) && toggleModal();
         });
 
         actionButtons.forEach((actionButton: HTMLButtonElement): void => {

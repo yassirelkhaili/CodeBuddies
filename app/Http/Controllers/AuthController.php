@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\AvatarService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Validator;
 use App\Interfaces\UserRepositoryInterface;
-use Illuminate\Http\RedirectResponse;
 
 class AuthController extends Controller
 {
@@ -35,19 +36,22 @@ class AuthController extends Controller
     public function register(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed|uncompromised',
+            'username' => 'required|string|min:3|max:20|unique:users,name',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
+        $validatedData = $validator->validated();
+
         $user = $this->userRepository->create([
-            'name' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validatedData['username'],
+            'email' => $validatedData['email'],
+            'avatar' => AvatarService::generateAndDownloadAvatar($validatedData['username']),
+            'password' => Hash::make($validatedData['password']),
         ]);
 
         auth()->login($user);

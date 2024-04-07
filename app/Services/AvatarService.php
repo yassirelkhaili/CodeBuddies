@@ -10,9 +10,9 @@ class AvatarService
 {
     public static function generateAndDownloadAvatar(string $username)
     {
-        $style = 'avataaars';
+        $style = 'fun-emoji';
         $seed = Str::slug($username);
-        $url = "https://avatars.dicebear.com/api/{$style}/{$seed}.svg";
+        $url = "https://api.dicebear.com/8.x/{$style}/svg?seed={$seed}";
 
         $response = Http::get($url);
 
