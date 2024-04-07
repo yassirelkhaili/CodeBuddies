@@ -13,6 +13,12 @@
         @csrf
         @method('put')
 
+        <div class="hidden">
+            <x-input-label for="username" :value="__('Resetting password for user {{auth()->user()->name}}')" />
+            <x-text-input id="username" name="username" type="text"
+                class="mt-1 block w-full" autocomplete="off" disabled hidden value="{{auth()->user()->name}}"/>
+        </div>
+
         <div>
             <x-input-label for="update_password_current_password" :value="__('Current Password')" />
             <x-text-input id="update_password_current_password" name="current_password" type="password"
