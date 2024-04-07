@@ -48,10 +48,9 @@
                             up</a>
                     @endguest
                     @auth
-
                         <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown"
                             data-dropdown-placement="bottom-start" class="w-10 h-10 rounded cursor-pointer"
-                            src="/docs/images/people/profile-picture-5.jpg" alt="User dropdown">
+                            src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}'s Avatar">
                         <!-- Dropdown menu -->
                         <div id="userDropdown"
                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
