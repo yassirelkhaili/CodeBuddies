@@ -1,3 +1,8 @@
+/** 
+ * @author Yassir Elkhaili
+ * @license GPL-3.0
+ * **/
+
 document.addEventListener("DOMContentLoaded", (): void => {
     const handleUserProfileDeleteModal = (): void => {
         const openButton = document.getElementById("delete-user-button") as HTMLButtonElement;

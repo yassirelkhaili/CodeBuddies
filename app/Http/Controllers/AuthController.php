@@ -50,7 +50,7 @@ class AuthController extends Controller
         $user = $this->userRepository->create([
             'name' => $validatedData['username'],
             'email' => $validatedData['email'],
-            'avatar' => AvatarService::generateAndDownloadAvatar($validatedData['username']),
+            'avatar' => AvatarService::generateAndDownloadAvatar($validatedData['username']) ?? "",
             'password' => Hash::make($validatedData['password']),
         ]);
 

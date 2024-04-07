@@ -18,6 +18,12 @@
             @csrf
             @method('delete')
 
+            <div class="hidden">
+                <x-input-label for="username-delete-user-form" :value="__('Deleting user {{auth()->user()->name}}')" />
+                <x-text-input id="username-delete-user-form" name="username" type="text"
+                    class="mt-1 block w-full" autocomplete="off" disabled hidden value="{{auth()->user()->name}}"/>
+            </div>
+
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ __('Are you sure you want to delete your account?') }}
             </h2>
