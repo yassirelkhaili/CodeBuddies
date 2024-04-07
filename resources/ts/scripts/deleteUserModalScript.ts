@@ -13,17 +13,17 @@ document.addEventListener("DOMContentLoaded", (): void => {
                 deleteModal.parentElement.parentElement.classList.toggle("hidden");
                 isDeleteModalOpen = !isDeleteModalOpen;
             }
-        }
+        };
 
         document.addEventListener("click", (event: MouseEvent): void => {
             const eventTarget = event.target as HTMLElement;
             (!deleteModal.contains(eventTarget) && isDeleteModalOpen) && toggleModal();
-        })
+        });
 
-        actionButtons.forEach((actionButton: HTMLButtonElement) => {
+        actionButtons.forEach((actionButton: HTMLButtonElement): void => {
             actionButton && actionButton.addEventListener("click", toggleModal);
         });
-    }
+    };
 
     handleUserProfileDeleteModal();
-})
+});
