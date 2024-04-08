@@ -21,6 +21,6 @@ class nav extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.nav');
+        return view('partials.nav');
     }
 }

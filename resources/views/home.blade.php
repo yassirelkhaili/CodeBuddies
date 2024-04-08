@@ -1,3 +1,10 @@
 <x-main_layout>
-    <h1 class="text-red-800">Hello</h1>
+    @session('status')
+        <div class="p-4 mb-4 text-sm text-green-500 rounded-lg bg-red-50 dark:bg-gray-700" role="alert">
+            <span class="font-medium">Status:</span> {{ $value }}
+        </div>
+    @endsession
+    <x-hero />
+    <x-about />
+    <x-stats />
 </x-main_layout>
