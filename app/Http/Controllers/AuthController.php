@@ -56,7 +56,11 @@ class AuthController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('home.index')->with('success', 'Account created succesfully');
+        session(['from' => 'registration']);
+        
+        $request->user()->sendEmailVerificationNotification();
+
+        return redirect()->route('verification.send');
     }
 
     public function login(Request $request): RedirectResponse

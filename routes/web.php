@@ -6,9 +6,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\mainController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\EmailVerificationController;
 
 // Index Routes
@@ -38,10 +35,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/verify-email', [EmailVerificationController::class, 'store'])
         ->name('verification.notice');
-    Route::get('/verify-email/{id}/{hash}', [EmailVerificationController::class, 'prompt'])
+    Route::get('/verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
-    Route::post('/email/verification-notification', [EmailVerificationController::class, 'verify'])
+    Route::get('/email/verification-notification', [EmailVerificationController::class, 'prompt'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
 });

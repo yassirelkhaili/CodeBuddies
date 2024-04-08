@@ -25,20 +25,23 @@ class EmailVerificationController extends Controller
     public function prompt(Request $request): RedirectResponse|View
     {
         return $request->user()->hasVerifiedEmail()
-                    ? redirect()->intended(RouteServiceProvider::PROFILE)
-                    : view('auth.verify-email');
+            ? redirect()->intended(RouteServiceProvider::PROFILE)
+            : view('auth.verify-email');
     }
 
     public function verify(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::PROFILE.'?verified=1');
+            return redirect()->intended(RouteServiceProvider::PROFILE . '?verified=1');
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
-
-        return redirect()->intended(RouteServiceProvider::PROFILE.'?verified=1');
+        if (session('from') === 'registration') {
+            session()->forget('from');
+            return redirect()->route('home.index')->with('success', 'Account created successfully');
+        }
+        return redirect()->intended(RouteServiceProvider::PROFILE . '?verified=1');
     }
 }

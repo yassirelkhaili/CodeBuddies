@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,8 @@ class ProfileController extends Controller
             if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
                 Storage::disk('public')->delete($user->avatar);
             }
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $avatarName = Str::slug($user->name) . '.' . $validatedData['avatar']->getClientOriginalExtension();
+            $avatarPath = $request->file('avatar')->storeAs('avatars', $avatarName, 'public');
             $validatedData['avatar'] = $avatarPath;
         }
     

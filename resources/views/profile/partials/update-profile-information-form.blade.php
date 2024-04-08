@@ -19,8 +19,8 @@
 
         <div class="flex justify-center items-start gap-1 flex-col">
             <x-input-label for="dropzone-file" :value="__('Avatar')" />
-            <img id="avatarImage" class="w-20 h-20 rounded"
-            src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}'s Avatar">
+            <img id="avatarImage" class="w-20 h-20 rounded" src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                alt="{{ auth()->user()->name }}'s Avatar">
             <div class="flex items-center justify-center w-full mt-1">
                 <label for="dropzone-file"
                     class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
@@ -34,7 +34,7 @@
                                 upload</span> or drag and drop</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG (MIN. 80x80px)</p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" name="avatar"/>
+                    <input id="dropzone-file" type="file" class="hidden" name="avatar" />
                 </label>
             </div>
 
@@ -59,10 +59,10 @@
                     <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification"
-                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                        <a type="submit" href="{{ route('verification.notice') }}"
+                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 mb-1">
                             {{ __('Click here to re-send the verification email.') }}
-                        </button>
+                        </a>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
