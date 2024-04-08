@@ -13,6 +13,9 @@
             darkMode: 'class',
             theme: {
                 extend: {
+                    boxShadow: {
+                        'footer': 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+                    },
                     colors: {
                         primary: {
                             "50": "#eff6ff",

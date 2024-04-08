@@ -29,4 +29,9 @@ class UserRepository implements UserRepositoryInterface
         $user = $this->getById($id);
         $user->delete();
     }
+
+    public function countActiveUsers($minutes = 5)
+    {
+        return User::where('last_activity', '>=', now()->subMinutes($minutes))->count();
+    }
 }

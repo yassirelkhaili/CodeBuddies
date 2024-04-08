@@ -57,7 +57,7 @@ class AuthController extends Controller
         auth()->login($user);
 
         session(['from' => 'registration']);
-        
+
         $request->user()->sendEmailVerificationNotification();
 
         return redirect()->route('verification.send');

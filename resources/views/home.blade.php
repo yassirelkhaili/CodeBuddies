@@ -5,4 +5,6 @@
         </div>
     @endsession
     <x-hero />
+    <x-about />
+    <x-stats />
 </x-main_layout>
