@@ -7,4 +7,6 @@
     <x-hero />
     <x-about />
     <x-stats />
+    <x-topbuddies />
+    <x-tech />
 </x-main_layout>
