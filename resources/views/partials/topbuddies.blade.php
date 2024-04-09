@@ -1,4 +1,5 @@
 <section class="bg-white dark:bg-gray-900">
+   <div class="px-4 mx-auto max-w-screen-xl lg:px-6">
     <div class="grid px-4 pb-8 lg:gap-8 xl:gap-0 lg:pb-16 lg:grid-cols-12 lg:mt-0 mt-8">
         <div class="mr-auto place-self-center lg:col-span-7">
             <h2 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Distinguished CodeBuddies
@@ -90,4 +91,5 @@
             </div>
         </div>
     </div>
+   </div>
 </section>
