@@ -35,8 +35,8 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">User
-                        Profiles</a>
+                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Leader
+                        Board</a>
                 </li>
                 <li class="flex justify-center items-center gap-3">
                     @guest
@@ -50,7 +50,8 @@
                     @auth
                         <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown"
                             data-dropdown-placement="bottom-start" class="w-10 h-10 rounded cursor-pointer"
-                            src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}'s Avatar">
+                            src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                            alt="{{ auth()->user()->name }}'s Avatar">
                         <!-- Dropdown menu -->
                         <div id="userDropdown"
                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
