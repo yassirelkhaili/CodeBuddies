@@ -9,4 +9,6 @@
     <x-stats />
     <x-topbuddies />
     <x-tech />
+    <x-forums />
+    <x-latest />
 </x-main_layout>
