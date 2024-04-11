@@ -7,10 +7,11 @@ use App\Http\Controllers\mainController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\ForumController;
 
 // Index Routes
 Route::get('/', [mainController::class, 'indexHome'])->name('home.index');
-
+Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 // Auth Routes
 Route::get('register', [AuthController::class, 'indexRegisterPage'])->middleware(AuthMiddleware::class)->name('register.index');
 Route::post('register', [AuthController::class, 'register'])->name('register');
