@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Forum;
 use App\Http\Requests\StoreForumRequest;
 use App\Http\Requests\UpdateForumRequest;
+use App\Interfaces\ForumRepositoryInterface;
 
 class ForumController extends Controller
 {
+    protected ForumRepositoryInterface $forumRepository;
+    public function __construct(ForumRepositoryInterface $forumRepository) {
+        $this->forumRepository = $forumRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('forums');
+        $repositories = $this->forumRepository->getAll();
+        return view('forums', ["forums" => $repositories]);
     }
 
     /**
