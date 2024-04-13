@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Forum;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreForumRequest;
 use App\Http\Requests\UpdateForumRequest;
 use App\Interfaces\ForumRepositoryInterface;
@@ -16,10 +18,22 @@ class ForumController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        $repositories = $this->forumRepository->getAll();
-        return view('forums', ["forums" => $repositories]);
+        $results = $this->forumRepository->getAll();
+        return view('forums', ["forums" => $results]);
+    }
+
+    public function search(Request $request): View | String
+    {
+        $searchInput = $request->input('query');
+        if ($request->ajax() && isset($searchInput)) {
+            $results = $this->forumRepository->search($searchInput);
+            return view("layouts.forums", ["forums" => $results])->render();
+        } else {
+            $results = $this->forumRepository->getAll();
+            return view("layouts.forums", ["forums" => $results]);
+        }
     }
 
     /**

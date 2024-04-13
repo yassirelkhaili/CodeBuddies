@@ -6,8 +6,10 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@types/dotenv": "^8.2.0",
+        "@types/node": "^20.12.7",
         "autoprefixer": "^10.4.19",
-        "axios": "^1.6.4",
+        "axios": "^1.6.8",
         "flowbite": "^2.3.0",
         "laravel-vite-plugin": "^1.0",
         "postcss": "^8.4.38",
