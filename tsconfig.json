@@ -10,7 +10,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["vite/client"]
   },
   "include": ["resources/ts/**/*"]
 }

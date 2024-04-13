@@ -38,4 +38,8 @@ class ForumRepository implements ForumRepositoryInterface
     public function getAll() {
         return Forum::paginate(9);
     }
+
+    public function search(string $searchInput) {
+        return Forum::where('name', 'like', '%' . $searchInput . '%')->paginate(9);
+    }
 }

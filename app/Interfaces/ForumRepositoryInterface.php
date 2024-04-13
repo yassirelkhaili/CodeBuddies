@@ -13,4 +13,6 @@ interface ForumRepositoryInterface
     public function delete($id);
 
     public function getAll();
+
+    public function search(string $searchInput);
 }
