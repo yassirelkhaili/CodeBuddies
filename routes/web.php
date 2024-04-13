@@ -12,9 +12,10 @@ use App\Http\Controllers\ForumController;
 // Index Routes
 Route::get('/', [mainController::class, 'indexHome'])->name('home.index');
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
+Route::get('/forum/{id}', [ForumController::class, 'show'])->name('forums.show');
 
 // Search Routes
-Route::get('/forums/search', [ForumController::class, 'search'])->middleware('throttle:6,1')->name('forums.search');
+Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
 
 // Auth Routes
 Route::get('register', [AuthController::class, 'indexRegisterPage'])->middleware(AuthMiddleware::class)->name('register.index');

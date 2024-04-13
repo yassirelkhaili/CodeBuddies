@@ -14,5 +14,7 @@ interface ForumRepositoryInterface
 
     public function getAll();
 
+    public function getAllNoPaginate();
+
     public function search(string $searchInput);
 }

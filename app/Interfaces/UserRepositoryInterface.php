@@ -10,5 +10,9 @@ interface UserRepositoryInterface
 
     public function update($id, array $data);
 
+    public function getAll();
+
+    public function getAllNoPaginate();
+
     public function delete($id);
 }

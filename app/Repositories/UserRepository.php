@@ -30,6 +30,14 @@ class UserRepository implements UserRepositoryInterface
         $user->delete();
     }
 
+    public function getAll() {
+        return User::paginate(9);
+    }
+
+    public function getAllNoPaginate() {
+        return User::all();
+    }
+
     public function countActiveUsers($minutes = 5)
     {
         return User::where('last_activity', '>=', now()->subMinutes($minutes))->count();

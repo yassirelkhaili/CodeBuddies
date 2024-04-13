@@ -1,5 +1,6 @@
 <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
     @forelse ($forums as $forum)
+      <a href={{route("forums.show", $forum->id)}}>
         <div class="hover:bg-gray-800 rounded-md p-5 hover:cursor-pointer">
             <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full lg:h-12 lg:w-12">
                 <img alt="laravel-logo" loading="lazy" width="30" height="30" decoding="async" data-nimg="1"
@@ -8,6 +9,7 @@
             <h3 class="mb-2 text-xl font-bold dark:text-white">{{ $forum->name }}</h3>
             <p class="text-gray-500 dark:text-gray-400 text-ellipsis">{{ $forum->description }}</p>
         </div>
+      </a>
     @empty
         <div>
             <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full lg:h-12 lg:w-12">
