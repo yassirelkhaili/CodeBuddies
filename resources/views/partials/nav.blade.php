@@ -26,7 +26,7 @@
                 </li>
                 <li>
                     <a href={{route('forums.index')}}
-                        class="block py-2 px-3 {{request()->routeIs('forums.index') ? 'text-white md:text-blue-700 dark:text-white md:dark:text-blue-500' : 'text-gray-900 dark:text-white'}} rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Forums</a>
+                        class="block py-2 px-3 {{(request()->routeIs('forums.index') || request()->routeIs('forums.show')) ? 'text-white md:text-blue-700 dark:text-white md:dark:text-blue-500' : 'text-gray-900 dark:text-white'}} rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Forums</a>
                 <li>
                     <a href={{route('forums.index')}}
                     class="block py-2 px-3 {{request()->routeIs('leader-board.index') ? 'text-white md:text-blue-700 dark:text-white md:dark:text-blue-500' : 'text-gray-900 dark:text-white'}} rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Leader Board</a>

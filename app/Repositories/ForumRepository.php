@@ -9,7 +9,7 @@ class ForumRepository implements ForumRepositoryInterface
 {
     public function getById($id)
     {
-        return Forum::findOrFail($id);
+        return Forum::with('threads')->findOrFail($id);
     }
 
     public function create(array $data)
@@ -37,6 +37,10 @@ class ForumRepository implements ForumRepositoryInterface
 
     public function getAll() {
         return Forum::paginate(9);
+    }
+
+    public function getAllNoPaginate() {
+        return Forum::all();
     }
 
     public function search(string $searchInput) {

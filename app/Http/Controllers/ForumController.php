@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreForumRequest;
 use App\Http\Requests\UpdateForumRequest;
 use App\Interfaces\ForumRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 
 class ForumController extends Controller
 {
@@ -55,9 +57,14 @@ class ForumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Forum $forum)
+    public function show(string $id): View | RedirectResponse
     {
-        //
+        try {
+            $result = $this->forumRepository->getById($id);
+        return view("forum-index")->with(["forum" => $result]);
+        } catch (ModelNotFoundException $error) {
+            return redirect()->back()->with('status', 'The requested forum could not be found. ErrorCode: ' . $error);
+        }
     }
 
     /**
