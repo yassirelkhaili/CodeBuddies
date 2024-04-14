@@ -5,18 +5,20 @@ use App\Http\Middleware\AuthMiddleware;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\mainController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmailVerificationController;
-use App\Http\Controllers\ForumController;
 
 // Index Routes
 Route::get('/', [mainController::class, 'indexHome'])->name('home.index');
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{id}', [ForumController::class, 'show'])->name('forums.show');
+Route::get('/forums/thread/{id}', [ThreadController::class, 'show'])->name('threads.show');
 
 // Search Routes
 Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
-
+Route::get('/forums/threads/filter', [ThreadController::class, 'filter'])->name('threads.filter');
 // Auth Routes
 Route::get('register', [AuthController::class, 'indexRegisterPage'])->middleware(AuthMiddleware::class)->name('register.index');
 Route::post('register', [AuthController::class, 'register'])->name('register');
