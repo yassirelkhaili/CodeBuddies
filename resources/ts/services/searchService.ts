@@ -15,6 +15,19 @@ class SearchService {
             throw error;
         }
     }
+
+    public async handleThreadFilter(filterInput: string): Promise<string> {
+        try {
+            const response = await axios.get<string>(`${this.BASE_URL}/threads/filter`, {
+                params: { query: filterInput },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            });
+            return response.data;
+        } catch (error) {
+            console.error("An error has occured:", error);
+            throw error;
+        }
+    }
 }
 
 const searchService = new SearchService();

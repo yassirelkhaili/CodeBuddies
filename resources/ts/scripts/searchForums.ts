@@ -22,4 +22,21 @@ document.addEventListener("DOMContentLoaded", (): void => {
     };
 
     handleForumSearchAction();
+
+    const handleThreadFilterAction = (): void => {
+        const form = document.getElementById('filter-form-threads') as HTMLFormElement;
+        if (form) {
+            form.addEventListener("keyup", async (event: Event): Promise<void> => {
+                event.preventDefault();
+                const filterInput = document.getElementById('threads-filter') as HTMLInputElement;
+                if (filterInput) {
+                    const filterValue: string = filterInput.value.trim();
+                    const response: string = await searchService.handleThreadFilter(filterValue);
+                    document.getElementById("filter-results-threads").innerHTML = response;
+                }
+            });
+        }
+    };
+
+    handleThreadFilterAction();
 });
