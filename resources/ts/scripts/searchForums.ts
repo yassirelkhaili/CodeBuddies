@@ -4,6 +4,7 @@
  * **/
 
 import searchService from "../services/searchService";
+import extractForumIdFromUrl from "../helpers";
 
 document.addEventListener("DOMContentLoaded", (): void => {
     const handleForumSearchAction = (): void => {
@@ -31,7 +32,8 @@ document.addEventListener("DOMContentLoaded", (): void => {
                 const filterInput = document.getElementById('threads-filter') as HTMLInputElement;
                 if (filterInput) {
                     const filterValue: string = filterInput.value.trim();
-                    const response: string = await searchService.handleThreadFilter(filterValue);
+                    const forumId: string = extractForumIdFromUrl();
+                    const response: string = await searchService.handleThreadFilter(filterValue, forumId);
                     document.getElementById("filter-results-threads").innerHTML = response;
                 }
             });

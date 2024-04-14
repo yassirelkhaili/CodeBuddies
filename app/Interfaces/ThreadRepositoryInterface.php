@@ -16,5 +16,7 @@ interface ThreadRepositoryInterface
 
     public function getAllNoPaginate();
 
-    public function filter(string $filterInput);
+    public function filterByForum(string $filterInput, int $forumId);
+
+    public function getAllByForum(int $forumId);
 }

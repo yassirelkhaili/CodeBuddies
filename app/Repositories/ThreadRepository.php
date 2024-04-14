@@ -35,15 +35,27 @@ class ThreadRepository implements ThreadRepositoryInterface
         return Thread::where('last_activity', '>=', now()->subMinutes($minutes))->count();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         return Thread::paginate(9);
     }
 
-    public function getAllNoPaginate() {
+    public function getAllNoPaginate()
+    {
         return Thread::all();
     }
 
-    public function filter(string $searchInput) {
-        return Thread::where('name', 'like', '%' . $searchInput . '%')->paginate(9);
+    public function filterByForum(string $filterInput, int $forumId)
+    {
+        return Thread::where('forum_id', $forumId)
+            ->where('name', 'like', '%' . $filterInput . '%')
+            ->paginate(9);
+    }
+
+    public function getAllByForum(int $forumId)
+    {
+        return Thread::where('forum_id', $forumId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(9);
     }
 }

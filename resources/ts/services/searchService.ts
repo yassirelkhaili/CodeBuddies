@@ -16,9 +16,9 @@ class SearchService {
         }
     }
 
-    public async handleThreadFilter(filterInput: string): Promise<string> {
+    public async handleThreadFilter(filterInput: string, forumId: string): Promise<string> {
         try {
-            const response = await axios.get<string>(`${this.BASE_URL}/threads/filter`, {
+            const response = await axios.get<string>(`${this.BASE_URL}/${forumId}/threads/filter`, {
                 params: { query: filterInput },
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             });
