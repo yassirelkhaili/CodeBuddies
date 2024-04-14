@@ -31,14 +31,13 @@ class ThreadController extends Controller
     public function filter(Request $request, int $forumId): View | String
     {
         $filterInput = $request->input('query');
-        if ($request->ajax() && isset($filterInput)) {
-            $results = $this->threadRepository->filterByForum($filterInput, $forumId);
-            return view("layouts.threads", ["threads" => $results])->render();
-        } else {
-            $results = $this->threadRepository->getAllByForum($forumId);
-            return view("layouts.threads", ["threads" => $results]);
-        }
+        $results = isset($filterInput)
+            ? $this->threadRepository->filterByForum($filterInput, $forumId)
+            : $this->threadRepository->getAllByForum($forumId);
+        $viewTemplate = $request->ajax() ? "layouts.threads" : "forum-index";
+        return view($viewTemplate, ["threads" => $results])->render();
     }
+
 
     /**
      * Show the form for creating a new resource.

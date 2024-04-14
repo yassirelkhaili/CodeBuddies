@@ -14,7 +14,8 @@ use Illuminate\Http\RedirectResponse;
 class ForumController extends Controller
 {
     protected ForumRepositoryInterface $forumRepository;
-    public function __construct(ForumRepositoryInterface $forumRepository) {
+    public function __construct(ForumRepositoryInterface $forumRepository)
+    {
         $this->forumRepository = $forumRepository;
     }
     /**
@@ -29,15 +30,11 @@ class ForumController extends Controller
     public function search(Request $request): View | String
     {
         $searchInput = $request->input('query');
-        if ($request->ajax() && isset($searchInput)) {
-            $results = $this->forumRepository->search($searchInput);
-            return view("layouts.forums", ["forums" => $results])->render();
-        } else {
-            $results = $this->forumRepository->getAll();
-            return view("layouts.forums", ["forums" => $results]);
-        }
+        $results = isset($searchInput) ? $this->forumRepository->search($searchInput) : $this->forumRepository->getAll();
+        $viewTemplate = $request->ajax() ? "layouts.forums" : "forums";
+        return view($viewTemplate, ["forums" => $results])->render();
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -62,7 +59,7 @@ class ForumController extends Controller
         try {
             $result = $this->forumRepository->getById($id);
             $threads = $result->threads()->orderBy('created_at', 'desc')->paginate(9);
-        return view("forum-index")->with(["forum" => $result, "threads" => $threads]);
+            return view("forum-index")->with(["forum" => $result, "threads" => $threads]);
         } catch (ModelNotFoundException $error) {
             return redirect()->back()->with('status', 'The requested forum could not be found. ErrorCode: ' . $error);
         }
