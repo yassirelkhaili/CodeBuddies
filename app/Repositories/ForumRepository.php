@@ -9,7 +9,7 @@ class ForumRepository implements ForumRepositoryInterface
 {
     public function getById($id)
     {
-        return Forum::with('threads')->findOrFail($id);
+        return Forum::findOrFail($id);
     }
 
     public function create(array $data)
