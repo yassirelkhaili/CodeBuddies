@@ -18,7 +18,8 @@ Route::get('/forums/thread/{id}', [ThreadController::class, 'show'])->name('thre
 
 // Search Routes
 Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
-Route::get('/forums/threads/filter', [ThreadController::class, 'filter'])->name('threads.filter');
+Route::get('/forums/{forumId}/threads/filter', [ThreadController::class, 'filter'])->name('threads.filter');
+
 // Auth Routes
 Route::get('register', [AuthController::class, 'indexRegisterPage'])->middleware(AuthMiddleware::class)->name('register.index');
 Route::post('register', [AuthController::class, 'register'])->name('register');

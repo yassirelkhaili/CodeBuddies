@@ -36,14 +36,14 @@ class ForumRepository implements ForumRepositoryInterface
     }
 
     public function getAll() {
-        return Forum::paginate(9);
-    }
+        return Forum::orderBy('created_at', 'desc')->paginate(9);
+    }    
 
     public function getAllNoPaginate() {
         return Forum::all();
     }
 
     public function search(string $searchInput) {
-        return Forum::where('name', 'like', '%' . $searchInput . '%')->paginate(9);
+        return Forum::where('name', 'like', '%' . $searchInput . '%')->orderBy('created_at', 'desc')->paginate(9);
     }
 }

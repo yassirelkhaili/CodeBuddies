@@ -61,7 +61,7 @@ class ForumController extends Controller
     {
         try {
             $result = $this->forumRepository->getById($id);
-            $threads = $result->threads()->paginate(9);
+            $threads = $result->threads()->orderBy('created_at', 'desc')->paginate(9);
         return view("forum-index")->with(["forum" => $result, "threads" => $threads]);
         } catch (ModelNotFoundException $error) {
             return redirect()->back()->with('status', 'The requested forum could not be found. ErrorCode: ' . $error);
