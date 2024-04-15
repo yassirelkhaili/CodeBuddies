@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\mainController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ThreadController;
@@ -12,9 +13,11 @@ use App\Http\Controllers\EmailVerificationController;
 
 // Index Routes
 Route::get('/', [mainController::class, 'indexHome'])->name('home.index');
+Route::get('/user/{id}/settings', [UserController::class, 'show'])->name('user.settings');
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forum/{id}', [ForumController::class, 'show'])->name('forums.show');
 Route::get('/forums/thread/{id}', [ThreadController::class, 'show'])->name('threads.show');
+Route::get('/forums/thread/post/{id}', [PostController::class, 'show'])->name('posts.show');
 
 // Search Routes
 Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
@@ -35,8 +38,6 @@ Route::post('/forget-password', [AuthController::class, 'submitForgetPasswordFor
 Route::get('/reset-password/{token}', [AuthController::class, 'indexResetPasswordForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'])->name('reset-password');
 Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('password.update');
-
-Route::get('/user/{id}/settings', [UserController::class, 'show'])->name('user.settings');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -9,6 +9,7 @@ use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
 use App\Interfaces\ForumRepositoryInterface;
 use App\Interfaces\ThreadRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ThreadController extends Controller
 {
@@ -25,7 +26,7 @@ class ThreadController extends Controller
     public function index(): View
     {
         $results = $this->threadRepository->getAll();
-        return view('threads', ["threads" => $results]);
+        return view('posts', ["posts" => $results]);
     }
 
     public function filter(Request $request, int $forumId): View | String
@@ -58,9 +59,15 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Thread $thread)
+    public function show(int $id)
     {
-        //
+        try {
+            $result = $this->threadRepository->getById($id);
+            $posts = $result->posts()->orderBy('created_at', 'desc')->paginate(9);
+            return view("thread")->with(["thread" => $result, "posts" => $posts]);
+        } catch (ModelNotFoundException $error) {
+            return redirect()->back()->with('status', 'The requested thread could not be found. ErrorCode: ' . $error);
+        }
     }
 
     /**
