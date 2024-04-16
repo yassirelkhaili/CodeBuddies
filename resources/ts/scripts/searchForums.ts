@@ -4,7 +4,7 @@
  * **/
 
 import searchService from "../services/searchService";
-import extractForumIdFromUrl from "../helpers";
+import extractForumIdFromUrl, { extractThreadIdFromUrl } from "../helpers";
 
 document.addEventListener("DOMContentLoaded", (): void => {
     const handleForumSearchAction = (): void => {
@@ -41,4 +41,22 @@ document.addEventListener("DOMContentLoaded", (): void => {
     };
 
     handleThreadFilterAction();
+
+    const handlePostFilterAction = (): void => {
+        const form = document.getElementById('filter-form-posts') as HTMLFormElement;
+        if (form) {
+            form.addEventListener("keyup", async (event: Event): Promise<void> => {
+                event.preventDefault();
+                const filterInput = document.getElementById('posts-filter') as HTMLInputElement;
+                if (filterInput) {
+                    const filterValue: string = filterInput.value.trim();
+                    const threadId: string = extractThreadIdFromUrl();
+                    const response: string = await searchService.handleThreadFilter(filterValue, threadId);
+                    document.getElementById("filter-results-posts").innerHTML = response;
+                }
+            });
+        }
+    };
+
+    handlePostFilterAction();
 });

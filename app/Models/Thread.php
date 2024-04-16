@@ -21,4 +21,9 @@ class Thread extends Model
     {
         return $this->belongsTo(Forum::class);
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Interfaces\PostRepositoryInterface;
 
 class PostController extends Controller
 {
+    protected PostRepositoryInterface $postRepository;
+    public function __construct(PostRepositoryInterface $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -22,6 +30,16 @@ class PostController extends Controller
     public function create()
     {
         //
+    }
+
+    public function filter(Request $request, int $threadId): View | String
+    {
+        $filterInput = $request->input('query');
+        $results = isset($filterInput)
+            ? $this->postRepository->filterByThread($filterInput, $threadId)
+            : $this->postRepository->getAllByThread($threadId);
+        $viewTemplate = $request->ajax() ? "layouts.posts" : "forum-index";
+        return view($viewTemplate, ["posts" => $results])->render();
     }
 
     /**
