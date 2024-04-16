@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
 use App\Interfaces\ForumRepositoryInterface;
+use App\Interfaces\PostRepositoryInterface;
 use App\Interfaces\ThreadRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -15,17 +16,19 @@ class ThreadController extends Controller
 {
     protected ThreadRepositoryInterface $threadRepository;
     protected ForumRepositoryInterface $forumRepository;
-    public function __construct(ThreadRepositoryInterface $threadRepository, ForumRepositoryInterface $forumRepository)
+    protected PostRepositoryInterface $postRepository;
+    public function __construct(PostRepositoryInterface $postRepository, ThreadRepositoryInterface $threadRepository, ForumRepositoryInterface $forumRepository)
     {
+        $this->postRepository = $postRepository;
         $this->threadRepository = $threadRepository;
         $this->forumRepository = $forumRepository;
     }
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(int $threadId): View
     {
-        $results = $this->threadRepository->getAll();
+        $results = $this->postRepository->getAllByThread($threadId);
         return view('posts', ["posts" => $results]);
     }
 

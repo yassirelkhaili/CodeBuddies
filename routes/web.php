@@ -22,6 +22,7 @@ Route::get('/forums/thread/post/{id}', [PostController::class, 'show'])->name('p
 // Search Routes
 Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
 Route::get('/forums/{forumId}/threads/filter', [ThreadController::class, 'filter'])->name('threads.filter');
+Route::get('/forums/{ThreadId}/posts/filter', [PostController::class, 'filter'])->name('posts.filter');
 
 // Auth Routes
 Route::get('register', [AuthController::class, 'indexRegisterPage'])->middleware(AuthMiddleware::class)->name('register.index');

@@ -6,7 +6,7 @@
                 <p class="text-gray-500 sm:text-xl dark:text-gray-400">Below you will find all the different posts related to {{$thread->name}}</p>
             </div>
             <x-search-post />
-            <div class="pb-2 mx-auto max-w-screen-xl sm:pb-6" id="filter-results-threads">
+            <div class="pb-2 mx-auto max-w-screen-xl sm:pb-6" id="filter-results-posts">
             @include("layouts.posts")
             </div>
         </div>
