@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -18,5 +18,10 @@ class Post extends Model
     public function thread()
     {
         return $this->belongsTo(Thread::class);
+    }
+
+    public function responses()
+    {
+        return $this->hasMany(Response::class);
     }
 }
