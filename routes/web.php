@@ -17,7 +17,7 @@ Route::get('/user/{id}/settings', [UserController::class, 'show'])->name('user.s
 Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
 Route::get('/forums/{id}', [ForumController::class, 'show'])->name('forums.show');
 Route::get('/forums/thread/{id}', [ThreadController::class, 'show'])->name('threads.show');
-Route::get('/forums/thread/post/{id}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/forums/threads/post/{id}', [PostController::class, 'show'])->name('posts.show');
 
 // Search Routes
 Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
