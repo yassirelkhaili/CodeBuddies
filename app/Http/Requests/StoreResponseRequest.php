@@ -11,8 +11,9 @@ class StoreResponseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
+    
 
     /**
      * Get the validation rules that apply to the request.
@@ -22,7 +23,8 @@ class StoreResponseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'reply' => 'required|string|max:10000',
+            'post_id' => 'required|integer|min:1|exists:posts,id'
         ];
     }
 }

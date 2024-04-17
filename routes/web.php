@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\EmailVerificationController;
 
 // Index Routes
@@ -23,6 +24,9 @@ Route::get('/forums/threads/post/{id}', [PostController::class, 'show'])->name('
 Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
 Route::get('/forums/{forumId}/threads/filter', [ThreadController::class, 'filter'])->name('threads.filter');
 Route::get('/forums/{ThreadId}/posts/filter', [PostController::class, 'filter'])->name('posts.filter');
+
+// Reply Routes
+Route::resource('/replies', ResponseController::class)->middleware(['throttle:6,1']);
 
 // Auth Routes
 Route::get('register', [AuthController::class, 'indexRegisterPage'])->middleware(AuthMiddleware::class)->name('register.index');

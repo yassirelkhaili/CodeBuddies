@@ -19,4 +19,6 @@ interface ResponseRepositoryInterface
     public function filterByThread(string $filterInput, int $threadId);
 
     public function getAllByThread(int $threadId);
+
+    public function getResponsesByPost(int $postId);
 }

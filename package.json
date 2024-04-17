@@ -16,5 +16,8 @@
         "tailwindcss": "^3.4.3",
         "typescript": "^5.4.4",
         "vite": "^5.0"
+    },
+    "dependencies": {
+        "highlight.js": "^11.9.0"
     }
 }

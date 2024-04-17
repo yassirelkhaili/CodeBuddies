@@ -8,6 +8,7 @@
         "php": "^8.2",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "league/commonmark": "^2.4",
         "nesbot/carbon": "^3.2"
     },
     "require-dev": {

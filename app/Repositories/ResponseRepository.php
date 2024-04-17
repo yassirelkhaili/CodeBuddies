@@ -56,4 +56,9 @@ class ResponseRepository implements ResponseRepositoryInterface
             ->orderBy('created_at', 'desc')
             ->paginate(9);
     }
+
+    public function getResponsesByPost(int $postId)
+    {
+        return Response::where('post_id', $postId)->orderBy('created_at', 'desc')->paginate(9);
+    }
 }

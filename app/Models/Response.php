@@ -11,7 +11,7 @@ class Response extends Model
     protected $fillable = [
         'content',
         'user_id',
-        'thread_id'
+        'post_id'
     ];
 
     public function post()

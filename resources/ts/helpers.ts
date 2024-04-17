@@ -7,3 +7,8 @@ export function extractThreadIdFromUrl (): string {
     const pathname: string = window.location.pathname;
     return pathname.split('/')[3];
 }
+
+export function extractPostIdFromUrl (): string {
+    const pathname: string = window.location.pathname;
+    return pathname.split('/')[4];
+}

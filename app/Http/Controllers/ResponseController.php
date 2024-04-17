@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Response;
 use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
+use App\Interfaces\ResponseRepositoryInterface;
 
 class ResponseController extends Controller
 {
+    protected ResponseRepositoryInterface $responseRepository;
+    public function __construct(ResponseRepositoryInterface $responseRepository)
+    {
+        $this->responseRepository = $responseRepository;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -29,8 +35,17 @@ class ResponseController extends Controller
      */
     public function store(StoreResponseRequest $request)
     {
-        //
-    }
+        $reply = $request->input('reply');
+        $postId = $request->input('post_id');
+        $this->responseRepository->create([
+            "content" => $reply,
+            "user_id" => auth()->user()->id,
+            "post_id" => $postId
+        ]);
+        $responses = $this->responseRepository->getResponsesByPost($postId);
+        $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
+        return view($viewTemplate, ["responses" => $responses])->render();
+     }
 
     /**
      * Display the specified resource.
