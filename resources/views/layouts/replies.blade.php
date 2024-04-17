@@ -15,11 +15,11 @@
                 <a href="#" class="text-gray-600 dark:text-gray-500">Report</a>
                 <span class="text-gray-600 dark:text-gray-500">·</span>
                 <a href="#" class="text-gray-900 dark:text-gray-100 underline">Reply</a>
-                @if($response->user->id === auth()->user()->id)
+                @if(auth()->check() && $response->user->id === auth()->user()->id)
                     <span class="text-gray-600 dark:text-gray-500">·</span>
-                    <a href="#" class="text-yellow-700 dark:text-yellow-500 underline">Edit</a>
+                    <button type="button"  class="text-yellow-400 dark:text-yellow-500 underline">Edit</button>
                     <span class="text-gray-600 dark:text-gray-500">·</span>
-                    <a href="#" class="text-red-700 dark:text-red-500 underline">Delete</a>
+                    <button type="button" class="text-red-700 dark:text-red-500 underline delete-button" data-reply-id={{$response->id}}>Delete</button>
                 @endif
             </div>            
         </div>

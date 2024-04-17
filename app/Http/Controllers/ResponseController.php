@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Response;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
+use App\Interfaces\PostRepositoryInterface;
 use App\Interfaces\ResponseRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ResponseController extends Controller
 {
     protected ResponseRepositoryInterface $responseRepository;
-    public function __construct(ResponseRepositoryInterface $responseRepository)
+    protected PostRepositoryInterface $postRepository;
+    public function __construct(ResponseRepositoryInterface $responseRepository, PostRepositoryInterface $postRepository)
     {
+        $this->postRepository = $postRepository;
         $this->responseRepository = $responseRepository;
     }
     /**
@@ -42,9 +47,10 @@ class ResponseController extends Controller
             "user_id" => auth()->user()->id,
             "post_id" => $postId
         ]);
+        $post = $this->postRepository->getById($postId);
         $responses = $this->responseRepository->getResponsesByPost($postId);
         $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
-        return view($viewTemplate, ["responses" => $responses])->render();
+        return view($viewTemplate, ["post" => $post,"responses" => $responses])->render();
      }
 
     /**
@@ -74,8 +80,16 @@ class ResponseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Response $Response)
-    {
-        //
+    public function destroy(Request $request, $responseId)
+{
+    try {
+    $response = $this->responseRepository->getById($responseId);
+    $response->delete();
+    $responses = $this->responseRepository->getResponsesByPost($response->id);
+    $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
+    return view($viewTemplate, ["responses" => $responses])->render();
+    } catch (ModelNotFoundException $error) {
+        return redirect()->back()->with('status', 'The requested response could not be found. ErrorCode: ' . $error);
     }
+}
 }
