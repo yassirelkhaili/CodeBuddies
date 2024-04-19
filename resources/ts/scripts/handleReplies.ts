@@ -5,8 +5,9 @@
 
 import { extractPostIdFromUrl } from "../helpers";
 import replyService from "../services/replyService";
-import handleDeleteModal from "./deleteModalScript";
-import handleEditModal from "./editModalScript";
+import hljs from 'highlight.js';
+import { toggleDeleteModal } from "./deleteModalScript";
+import { reAttachDeleteEventListeners } from "./deleteModalScript";
 
 document.addEventListener("DOMContentLoaded", (): void => {
     const handleReplyPostAction = (): void => {
@@ -20,8 +21,8 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const postId: string = extractPostIdFromUrl();
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
-                    handleDeleteModal();
-                    handleEditModal();
+                    reAttachDeleteEventListeners();
+                    hljs.highlightAll();
                 }
             });
         }
@@ -30,18 +31,18 @@ document.addEventListener("DOMContentLoaded", (): void => {
     handleReplyPostAction();
 
     const handleReplyDeletion = (): void => {
-        const deleteButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".delete-button");
-        deleteButtons && deleteButtons.forEach((deleteButton: HTMLButtonElement) => {
-            deleteButton && deleteButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
-             const eventTarget = event.target as HTMLButtonElement;
-             const replyId = eventTarget.getAttribute("data-reply-id");
-             const response: string = await replyService.handleReplyDeletion(replyId);
-             document.getElementById("post-reply-results").innerHTML = response;
-             handleDeleteModal();
-             handleEditModal();
+        const deleteModal = document.querySelector(".delete-element-form") as HTMLFormElement;
+        deleteModal && deleteModal.addEventListener("submit", async (event: MouseEvent): Promise<void> => {
+            event.preventDefault();
+            const eventTarget = event.target as HTMLButtonElement;
+            const replyId: string = eventTarget.getAttribute("data-reply-id");
+            const response: string = await replyService.handleReplyDeletion(replyId);
+            document.getElementById("post-reply-results").innerHTML = response;
+            toggleDeleteModal();
+            reAttachDeleteEventListeners();
             })
-        })
     }
 
     handleReplyDeletion();
 });
+ 

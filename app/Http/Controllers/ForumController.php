@@ -55,7 +55,7 @@ class ForumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): View | RedirectResponse
+    public function show(int $id): View | RedirectResponse
     {
         try {
             $result = $this->forumRepository->getById($id);

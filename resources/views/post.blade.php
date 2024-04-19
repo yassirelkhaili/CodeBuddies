@@ -50,7 +50,7 @@
                     </button>
                     <p class="text-gray-500 sm:text-md dark:text-gray-400 mt-2">Hightlight your code by placing it
                         inside ``````.
-                        Example: ```console.log("Hello CodeBuddies")```</p>
+                        Example: ```console.log("Hello CodeBuddies")``` see list of <a href="https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md" class="underline" target="__blank">supported languages.</a></p>
                 </form>
                 <div id="post-reply-results">
                     @include('layouts.replies')
@@ -78,7 +78,7 @@
             <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
                 <label for="editor" class="sr-only">Edit reply</label>
                 <textarea id="reply-editor" rows="8"
-                    class="reply-textarea block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    class="reply-textarea block w-full px-0 text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                     placeholder="Edit the reply..." required></textarea>
             </div>
         </div>
@@ -94,7 +94,7 @@
             </div>
         </form>
     </x-modal>
-    <x-modal name="confirm-reply-edit" maxWidth="md">
+    <x-modal name="confirm-reply-delete" maxWidth="md">
         <form method="post" class="p-6 hidden delete-element-form">
             @csrf
             @method('delete')
@@ -113,7 +113,7 @@
                 </x-secondary-button>
 
                 <x-danger-button class="ms-3">
-                    {{ __('Delete Post') }}
+                    {{ __('Delete Reply') }}
                 </x-danger-button>
             </div>
         </form>
