@@ -16,8 +16,7 @@
                     src={{ asset('./assets/svgs/404-error.svg') }}>
             </div>
             <h3 class="mb-2 text-xl font-bold dark:text-white">Oups no posts were found</h3>
-            <p class="text-gray-500 dark:text-gray-400">If you encounter this message then a mistake must have occured,
-                please refresh the page and try again</p>
+            <p class="text-gray-500 dark:text-gray-400">Be the first to create a post on this thread</p>
         </div>
     @endforelse
 </div>

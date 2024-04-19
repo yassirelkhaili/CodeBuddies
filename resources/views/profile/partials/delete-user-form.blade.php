@@ -9,10 +9,10 @@
         </p>
     </header>
 
-    <x-danger-button id="delete-user-button">{{ __('Delete Account') }}</x-danger-button>
+    <x-danger-button class="delete-element-button">{{ __('Delete Account') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion">
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6 hidden" id="delete-user-form">
+        <form method="post" action="{{ route('profile.destroy') }}" class="p-6 hidden delete-element-form">
             @csrf
             @method('delete')
 
@@ -40,7 +40,7 @@
             </div>
 
             <div class="mt-6 flex justify-end">
-                <x-secondary-button id="cancel-delete-modal">
+                <x-secondary-button class="cancel-delete-modal-element">
                     {{ __('Cancel') }}
                 </x-secondary-button>
 

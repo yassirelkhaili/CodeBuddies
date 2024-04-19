@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Interfaces\PostRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PostController extends Controller
 {
@@ -53,9 +54,15 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(int $id)
     {
-        //
+        try {
+            $result = $this->postRepository->getById($id);
+            $responses = $result->responses()->orderBy('created_at', 'desc')->paginate(9);
+            return view("post")->with(["post" => $result, "responses" => $responses]);
+        } catch (ModelNotFoundException $error) {
+            return redirect()->back()->with('status', 'The requested post could not be found. ErrorCode: ' . $error);
+        }
     }
 
     /**

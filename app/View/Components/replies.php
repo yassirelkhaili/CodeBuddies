@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class searchPost extends Component
+class replies extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class searchPost extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.search-post');
+        return view('layouts.replies');
     }
 }
