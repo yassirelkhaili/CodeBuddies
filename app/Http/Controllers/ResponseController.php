@@ -85,7 +85,7 @@ class ResponseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $responseId)
+    public function destroy(Request $request, int $responseId)
 {
     try {
     $postId = $this->responseRepository->getById($responseId)->post->id;

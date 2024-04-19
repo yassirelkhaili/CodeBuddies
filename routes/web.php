@@ -18,7 +18,7 @@ Route::get('/forums/{forumId}/threads/filter', [ThreadController::class, 'filter
 Route::get('/forums/{ThreadId}/posts/filter', [PostController::class, 'filter'])->name('posts.filter');
 
 // Reply Routes
-Route::resource('/replies', ResponseController::class)->middleware(['throttle:6,1']);
+Route::resource('/replies', ResponseController::class)->middleware(['throttle:8,1']);
 
 // Index Routes
 Route::get('/', [mainController::class, 'indexHome'])->name('home.index');

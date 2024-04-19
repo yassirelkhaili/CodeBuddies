@@ -1,3 +1,11 @@
+@php
+function formatResponseContent($content) {
+    $pattern = '/```(.*?)```/s';
+    return preg_replace_callback($pattern, function ($matches) {
+        return '<pre><code class="bg-white dark:bg-gray-800">' . htmlentities($matches[1]) . '</code></pre>';
+    }, $content);
+}
+@endphp
 <div>
     <h2 class="text-lg tracking-tight font-semibold text-gray-900 dark:text-white mb-5">Responses:</h2>
     @forelse ($responses as $response)
@@ -10,7 +18,9 @@
                         class="text-gray-600 dark:text-gray-500">·</span> {{ $response->created_at->format('d M') }}
                 </p>
             </div>
-            <p class="text-gray-500 sm:text-lg dark:text-gray-400">{{ $response->content }}</p>
+            <p class="text-gray-500 sm:text-lg dark:text-gray-400">
+                {!! formatResponseContent($response->content) !!}
+            </p>            
             <div class="mt-1 flex flex-row gap-[0.5rem]">
                 <a href="#" class="text-gray-600 dark:text-gray-500 hover:text-gray-900 hover:dark:text-gray-400">Report</a>
                 @if(auth()->check() && $response->user->id === auth()->user()->id)
