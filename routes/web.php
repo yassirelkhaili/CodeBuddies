@@ -12,14 +12,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\EmailVerificationController;
 
-// Index Routes
-Route::get('/', [mainController::class, 'indexHome'])->name('home.index');
-Route::get('/user/{id}/settings', [UserController::class, 'show'])->name('user.settings');
-Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
-Route::get('/forums/{id}', [ForumController::class, 'show'])->name('forums.show');
-Route::get('/forums/thread/{id}', [ThreadController::class, 'show'])->name('threads.show');
-Route::get('/forums/threads/post/{id}', [PostController::class, 'show'])->name('posts.show');
-
 // Search Routes
 Route::get('/forums/search', [ForumController::class, 'search'])->name('forums.search');
 Route::get('/forums/{forumId}/threads/filter', [ThreadController::class, 'filter'])->name('threads.filter');
@@ -27,6 +19,14 @@ Route::get('/forums/{ThreadId}/posts/filter', [PostController::class, 'filter'])
 
 // Reply Routes
 Route::resource('/replies', ResponseController::class)->middleware(['throttle:6,1']);
+
+// Index Routes
+Route::get('/', [mainController::class, 'indexHome'])->name('home.index');
+Route::get('/user/{id}/settings', [UserController::class, 'show'])->name('user.settings');
+Route::get('/forums', [ForumController::class, 'index'])->name('forums.index');
+Route::get('/forums/{id}', [ForumController::class, 'show'])->name('forums.show');
+Route::get('/forums/thread/{id}', [ThreadController::class, 'show'])->name('threads.show');
+Route::get('/forums/threads/post/{id}', [PostController::class, 'show'])->name('posts.show');
 
 // Auth Routes
 Route::get('register', [AuthController::class, 'indexRegisterPage'])->middleware(AuthMiddleware::class)->name('register.index');

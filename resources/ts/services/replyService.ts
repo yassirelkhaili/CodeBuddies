@@ -32,6 +32,21 @@ class ReplyService {
             throw error;
         }
     }
+
+    public async fetchReplyContent(contentId: string): Promise<string> {
+        try {
+            const response = await axios.get<string>(`${this.BASE_URL}/${contentId}`);
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
 }
 
 const replyService = new ReplyService();

@@ -14,7 +14,7 @@ $maxWidth = [
 ][$maxWidth];
 @endphp
 
-<div class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50 hidden">
+<div class="fixed inset-0 overflow-y-auto px-4 pt-16 sm:px-0 z-50 hidden">
     <div class="fixed inset-0 transform transition-all">
         <div class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
     </div>

@@ -60,4 +60,62 @@
                 </div>
             </div>
     </section>
+    <x-modal name="confirm-reply-edit" maxWidth="xl">
+        <form method="post" class="p-6 hidden edit-element-form">
+            @csrf
+            @method('put')
+
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Are you sure you want to edit this reply?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Once this reply is edited, all of its resources and data will be permanently changed.') }}
+            </p>
+
+            <div
+            class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+            <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
+                <label for="editor" class="sr-only">Edit reply</label>
+                <textarea id="reply-editor" rows="8"
+                    class="reply-textarea block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    placeholder="Edit the reply..." required></textarea>
+            </div>
+        </div>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button class="cancel-edit-modal-element">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-warning-button class="ms-3">
+                    {{ __('Edit Reply') }}
+                </x-warning-button>
+            </div>
+        </form>
+    </x-modal>
+    <x-modal name="confirm-reply-edit" maxWidth="md">
+        <form method="post" class="p-6 hidden delete-element-form">
+            @csrf
+            @method('delete')
+
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Are you sure you want to delete this reply?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Once this reply is deleted, all of its resources and data will be permanently deleted.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button class="cancel-delete-modal-element">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ms-3">
+                    {{ __('Delete Post') }}
+                </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
 </x-main_layout>

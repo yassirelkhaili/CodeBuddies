@@ -56,9 +56,14 @@ class ResponseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Response $Response)
+    public function show(int $responseId)
     {
-        //
+        try {
+            $responseContent = $this->responseRepository->getById($responseId)->content;
+            return response()->json($responseContent);
+            } catch (ModelNotFoundException $error) {
+                return response()->json("The requested response could not be found. ErrorCode: $error");
+            }
     }
 
     /**
@@ -83,9 +88,9 @@ class ResponseController extends Controller
     public function destroy(Request $request, $responseId)
 {
     try {
-    $response = $this->responseRepository->getById($responseId);
-    $response->delete();
-    $responses = $this->responseRepository->getResponsesByPost($response->id);
+    $postId = $this->responseRepository->getById($responseId)->post->id;
+    $this->responseRepository->delete($responseId);
+    $responses = $this->responseRepository->getResponsesByPost($postId);
     $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
     return view($viewTemplate, ["responses" => $responses])->render();
     } catch (ModelNotFoundException $error) {

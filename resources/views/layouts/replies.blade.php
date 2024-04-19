@@ -12,14 +12,12 @@
             </div>
             <p class="text-gray-500 sm:text-lg dark:text-gray-400">{{ $response->content }}</p>
             <div class="mt-1 flex flex-row gap-[0.5rem]">
-                <a href="#" class="text-gray-600 dark:text-gray-500">Report</a>
-                <span class="text-gray-600 dark:text-gray-500">·</span>
-                <a href="#" class="text-gray-900 dark:text-gray-100 underline">Reply</a>
+                <a href="#" class="text-gray-600 dark:text-gray-500 hover:text-gray-900 hover:dark:text-gray-400">Report</a>
                 @if(auth()->check() && $response->user->id === auth()->user()->id)
                     <span class="text-gray-600 dark:text-gray-500">·</span>
-                    <button type="button"  class="text-yellow-400 dark:text-yellow-500 underline">Edit</button>
+                    <button type="button"  class="text-yellow-400 dark:text-yellow-500 underline edit-element-button" data-reply-id={{$response->id}}>Edit</button>
                     <span class="text-gray-600 dark:text-gray-500">·</span>
-                    <button type="button" class="text-red-700 dark:text-red-500 underline delete-button" data-reply-id={{$response->id}}>Delete</button>
+                    <button type="button" class="text-red-700 dark:text-red-500 underline delete-element-button" data-reply-id={{$response->id}}>Delete</button>
                 @endif
             </div>            
         </div>

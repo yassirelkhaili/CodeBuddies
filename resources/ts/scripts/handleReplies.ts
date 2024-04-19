@@ -5,6 +5,8 @@
 
 import { extractPostIdFromUrl } from "../helpers";
 import replyService from "../services/replyService";
+import handleDeleteModal from "./deleteModalScript";
+import handleEditModal from "./editModalScript";
 
 document.addEventListener("DOMContentLoaded", (): void => {
     const handleReplyPostAction = (): void => {
@@ -18,6 +20,8 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const postId: string = extractPostIdFromUrl();
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
+                    handleDeleteModal();
+                    handleEditModal();
                 }
             });
         }
@@ -25,7 +29,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
 
     handleReplyPostAction();
 
-    const handlePostDeletion = (): void => {
+    const handleReplyDeletion = (): void => {
         const deleteButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".delete-button");
         deleteButtons && deleteButtons.forEach((deleteButton: HTMLButtonElement) => {
             deleteButton && deleteButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
@@ -33,9 +37,11 @@ document.addEventListener("DOMContentLoaded", (): void => {
              const replyId = eventTarget.getAttribute("data-reply-id");
              const response: string = await replyService.handleReplyDeletion(replyId);
              document.getElementById("post-reply-results").innerHTML = response;
+             handleDeleteModal();
+             handleEditModal();
             })
         })
     }
 
-    handlePostDeletion();
+    handleReplyDeletion();
 });

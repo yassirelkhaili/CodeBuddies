@@ -29,6 +29,7 @@ class ForumController extends Controller
 
     public function search(Request $request): View | String
     {
+        echo "accessed";
         $searchInput = $request->input('query');
         $results = isset($searchInput) ? $this->forumRepository->search($searchInput) : $this->forumRepository->getAll();
         $viewTemplate = $request->ajax() ? "layouts.forums" : "forums";
@@ -61,6 +62,7 @@ class ForumController extends Controller
             $threads = $result->threads()->orderBy('created_at', 'desc')->paginate(9);
             return view("forum-index")->with(["forum" => $result, "threads" => $threads]);
         } catch (ModelNotFoundException $error) {
+            echo "hello";
             return redirect()->back()->with('status', 'The requested forum could not be found. ErrorCode: ' . $error);
         }
     }
