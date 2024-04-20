@@ -45,6 +45,10 @@ Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'
 Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 
 Route::middleware(['auth'])->group(function () {
+    //Resource Routes
+    Route::post("/replies/mark/{id}", [ResponseController::class, 'mark'])->name("response.mark");
+    Route::post("/replies/unmark/{id}", [ResponseController::class, 'unmark'])->name("response.unmark");
+    //Auth Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

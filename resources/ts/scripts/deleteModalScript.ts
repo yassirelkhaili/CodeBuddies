@@ -9,11 +9,6 @@
     const actionButtons: Array<HTMLButtonElement> = [...openButton, ...cancelButton];
     let isDeleteModalOpen: boolean = false;
 
-    export function reAttachDeleteEventListeners (): void {
-        const deleteButtons = document.querySelectorAll(".delete-element-button");
-        deleteButtons.forEach((deleteButton: HTMLButtonElement) => deleteButton && deleteButton.addEventListener("click", toggleDeleteModal));
-    }
-
     export function toggleDeleteModal (event: MouseEvent = null): void {
         if (event !== null) event.stopPropagation();
         deleteModal && deleteModal.forEach((deleteModal: HTMLFormElement) => {

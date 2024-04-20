@@ -10,11 +10,6 @@ const editModal = document.querySelectorAll(".edit-element-form") as NodeListOf<
 const actionButtons: Array<HTMLButtonElement> = [...openButton, ...cancelButton];
 let isEditModalOpen: boolean = false;
 
-export function reAttachEditEventListeners (): void {
-    const editButtons = document.querySelectorAll(".edit-element-button");
-    editButtons.forEach((editButton: HTMLButtonElement) => editButton && editButton.addEventListener("click", toggleEditModal));
-}
-
 export async function toggleEditModal (event: MouseEvent = null): Promise<void> {
     if (event !== null) event.stopPropagation();
     editModal && editModal.forEach(async (editModal: HTMLFormElement): Promise<void> => {

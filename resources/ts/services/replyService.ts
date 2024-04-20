@@ -57,6 +57,36 @@ class ReplyService {
             throw error;
         }
     }
+
+    public async markReponseAsAnswer(replyId: string, postId: string): Promise<string> {
+        try {
+            const response = await axios.post<string>(`${this.BASE_URL}/mark/${replyId}`, { post_id: postId });
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
+
+    public async unmarkReponseAsAnswer(replyId: string, postId: string): Promise<string> {
+        try {
+            const response = await axios.post<string>(`${this.BASE_URL}/unmark/${replyId}`, { post_id: postId });
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
 }
 
 const replyService = new ReplyService();

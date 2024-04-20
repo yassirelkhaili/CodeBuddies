@@ -6,9 +6,9 @@
 import { extractPostIdFromUrl } from "../helpers";
 import replyService from "../services/replyService";
 import hljs from 'highlight.js';
+import { reAttachEventListeners } from "../helpers";
 import { toggleDeleteModal } from "./deleteModalScript";
-import { reAttachDeleteEventListeners } from "./deleteModalScript";
-import { reAttachEditEventListeners, toggleEditModal } from "./editModalScript";
+import { toggleEditModal } from "./editModalScript";
 
 document.addEventListener("DOMContentLoaded", (): void => {
     const handleReplyPostAction = (): void => {
@@ -23,8 +23,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const postId: string = extractPostIdFromUrl();
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
-                    reAttachDeleteEventListeners();
-                    reAttachEditEventListeners();
+                    reAttachEventListeners();
                     hljs.highlightAll();
                 }
             });
@@ -42,8 +41,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
             const response: string = await replyService.handleReplyDeletion(replyId);
             document.getElementById("post-reply-results").innerHTML = response;
             toggleDeleteModal();
-            reAttachDeleteEventListeners();
-            reAttachEditEventListeners();
+            reAttachEventListeners();
             hljs.highlightAll();
             })
     }
@@ -63,8 +61,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const response: string = await replyService.handleReplyEdition(textAreaValue, form.getAttribute("data-reply-id"), postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     toggleEditModal();
-                    reAttachDeleteEventListeners();
-                    reAttachEditEventListeners();
+                    reAttachEventListeners();
                     hljs.highlightAll();
                 }
             });
@@ -72,5 +69,43 @@ document.addEventListener("DOMContentLoaded", (): void => {
     };
 
     handleReplyEditionAction();
+
+    const handleReplyMarkAsAnswer = (): void => {
+        const markButtons = document.querySelectorAll(".mark-element-button") as NodeListOf<HTMLButtonElement>;
+        markButtons && markButtons.forEach((markButton: HTMLButtonElement): void => {
+            markButton && markButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
+                const eventTarget = event.target as HTMLButtonElement;
+                const replyId: string = eventTarget.getAttribute("data-reply-id");
+                const postId: string = extractPostIdFromUrl();
+                const response: string = await replyService.markReponseAsAnswer(replyId, postId);
+                document.getElementById("post-reply-results").innerHTML = response;
+                reAttachEventListeners();
+                handleReplyMarkAsAnswer();
+                handleReplyUnmarkAsAnswer();
+                hljs.highlightAll();
+            })
+        })
+    };
+
+    handleReplyMarkAsAnswer();
+
+    const handleReplyUnmarkAsAnswer = (): void => {
+        const unmarkButtons = document.querySelectorAll(".unmark-element-button") as NodeListOf<HTMLButtonElement>;
+        unmarkButtons && unmarkButtons.forEach((unmarkButton: HTMLButtonElement): void => {
+            unmarkButton && unmarkButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
+                const eventTarget = event.target as HTMLButtonElement;
+                const replyId: string = eventTarget.getAttribute("data-reply-id");
+                const postId: string = extractPostIdFromUrl();
+                const response: string = await replyService.unmarkReponseAsAnswer(replyId, postId);
+                document.getElementById("post-reply-results").innerHTML = response;
+                reAttachEventListeners();
+                handleReplyMarkAsAnswer();
+                handleReplyUnmarkAsAnswer();
+                hljs.highlightAll();
+            })
+        })
+    };
+
+    handleReplyUnmarkAsAnswer();
 });
  

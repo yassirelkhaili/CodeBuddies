@@ -35,11 +35,13 @@ class ResponseRepository implements ResponseRepositoryInterface
         return Response::where('last_activity', '>=', now()->subMinutes($minutes))->count();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         return Response::orderBy('created_at', 'desc')->paginate(9);
-    }    
+    }
 
-    public function getAllNoPaginate() {
+    public function getAllNoPaginate()
+    {
         return Response::all();
     }
 
@@ -60,5 +62,10 @@ class ResponseRepository implements ResponseRepositoryInterface
     public function getResponsesByPost(int $postId)
     {
         return Response::where('post_id', $postId)->orderBy('created_at', 'desc')->paginate(9);
+    }
+
+    public static function isAnswerMarked(int $postId)
+    {
+        return Response::where('post_id', $postId)->where('answer', 1)->exists();
     }
 }
