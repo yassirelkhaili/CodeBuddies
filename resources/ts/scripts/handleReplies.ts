@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     reAttachEventListeners();
+                    handleReplyMarkAsAnswer();
+                    handleReplyUnmarkAsAnswer();
                     hljs.highlightAll();
                 }
             });
@@ -41,6 +43,8 @@ document.addEventListener("DOMContentLoaded", (): void => {
             const response: string = await replyService.handleReplyDeletion(replyId);
             document.getElementById("post-reply-results").innerHTML = response;
             toggleDeleteModal();
+            handleReplyMarkAsAnswer();
+            handleReplyUnmarkAsAnswer();
             reAttachEventListeners();
             hljs.highlightAll();
             })
@@ -61,6 +65,8 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const response: string = await replyService.handleReplyEdition(textAreaValue, form.getAttribute("data-reply-id"), postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     toggleEditModal();
+                    handleReplyMarkAsAnswer();
+                    handleReplyUnmarkAsAnswer();
                     reAttachEventListeners();
                     hljs.highlightAll();
                 }

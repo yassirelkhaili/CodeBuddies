@@ -103,4 +103,14 @@ public function unmark(MarkAsAnswerRequest $request, int $replyId)
         return redirect()->back()->with('status', 'The requested response could not be found. ErrorCode: ' . $error);
     }
 }
+
+public function count(int $postId)
+{
+    try {
+    $responseCount = $this->responseRepository->getResponsesByPost($postId)->count();
+    return response()->json($responseCount);
+    } catch (ModelNotFoundException $error) {
+        return redirect()->back()->with('status', 'Could not return response count. ErrorCode: ' . $error);
+    }
+}
 }

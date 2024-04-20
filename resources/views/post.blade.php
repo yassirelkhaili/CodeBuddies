@@ -11,8 +11,10 @@
                             src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}'s Avatar">
                         <p class="text-blue-700 dark:text-blue-500 text-lg font-semibold">{{ $post->user->name }} <span
                                 class="text-gray-600 dark:text-gray-500">·</span> {{ $post->created_at->format('d M') }}
-                            <span class="text-gray-600 dark:text-gray-500">·</span> {{ $post->responses()->count() }}
+                            <span class="text-gray-600 dark:text-gray-500">·</span> <span id="response-count">
+                                {{ $post->responses()->count() }}
                             {{ $post->responses()->count() === 1 ? 'response' : 'responses' }}
+                            </span>
                         </p>
                     </div>
                     <p class="text-gray-500 sm:text-xl dark:text-gray-400">{{ $post->content }}</p>
