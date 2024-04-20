@@ -21,4 +21,6 @@ interface ResponseRepositoryInterface
     public function getAllByThread(int $threadId);
 
     public function getResponsesByPost(int $postId);
+
+    public static function isAnswerMarked(int $postId);
 }

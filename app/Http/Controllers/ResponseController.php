@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MarkAsAnswerRequest;
 use App\Models\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreResponseRequest;
@@ -19,21 +20,29 @@ class ResponseController extends Controller
         $this->postRepository = $postRepository;
         $this->responseRepository = $responseRepository;
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function mark(MarkAsAnswerRequest $request, int $replyId)
+{
+    $postId = $request->input('post_id');
+    if (!$this->responseRepository::isAnswerMarked($postId)) {
+        $this->responseRepository->update($replyId, ["answer" => 1]);
     }
+    $responses = $this->responseRepository->getResponsesByPost($postId);
+    $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
+    return view($viewTemplate, ["responses" => $responses])->render();
+}
+
+public function unmark(MarkAsAnswerRequest $request, int $replyId)
+{
+    $postId = $request->input('post_id');
+    $this->responseRepository->update($replyId, ["answer" => 0]);
+    $responses = $this->responseRepository->getResponsesByPost($postId);
+    $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
+    return view($viewTemplate, ["responses" => $responses])->render();
+}
 
     /**
      * Store a newly created resource in storage.
@@ -67,19 +76,16 @@ class ResponseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Response $Response)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateResponseRequest $request, Response $Response)
+    public function update(UpdateResponseRequest $request, int $replyId)
     {
-        //
+        $postId = $request->input('post_id');
+        $reply = $request->input('reply');
+        $this->responseRepository->update($replyId, ["content" => $reply, "post_id" => $postId]);
+        $responses = $this->responseRepository->getResponsesByPost($postId);
+        $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
+        return view($viewTemplate, ["responses" => $responses])->render();
     }
 
     /**

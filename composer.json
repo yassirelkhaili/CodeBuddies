@@ -22,6 +22,9 @@
     },
     "autoload": {
         "psr-4": {
+            "files": [
+                "app/Services/CodeHighlightService.php"
+            ],
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
