@@ -11,7 +11,7 @@ class UpdateResponseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateResponseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'reply' => 'required|string|max:10000',
+            'post_id' => 'required|integer|min:1|exists:posts,id',
         ];
     }
 }

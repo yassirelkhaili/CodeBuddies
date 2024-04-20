@@ -77,9 +77,14 @@ class ResponseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateResponseRequest $request, Response $Response)
+    public function update(UpdateResponseRequest $request, int $replyId)
     {
-        //
+        $postId = $request->input('post_id');
+        $reply = $request->input('reply');
+        $this->responseRepository->update($replyId, ["content" => $reply, "post_id" => $postId]);
+        $responses = $this->responseRepository->getResponsesByPost($postId);
+        $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
+        return view($viewTemplate, ["responses" => $responses])->render();
     }
 
     /**

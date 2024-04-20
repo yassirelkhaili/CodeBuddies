@@ -8,6 +8,7 @@ import replyService from "../services/replyService";
 import hljs from 'highlight.js';
 import { toggleDeleteModal } from "./deleteModalScript";
 import { reAttachDeleteEventListeners } from "./deleteModalScript";
+import { reAttachEditEventListeners, toggleEditModal } from "./editModalScript";
 
 document.addEventListener("DOMContentLoaded", (): void => {
     const handleReplyPostAction = (): void => {
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     reAttachDeleteEventListeners();
+                    reAttachEditEventListeners();
                     hljs.highlightAll();
                 }
             });
@@ -41,10 +43,34 @@ document.addEventListener("DOMContentLoaded", (): void => {
             document.getElementById("post-reply-results").innerHTML = response;
             toggleDeleteModal();
             reAttachDeleteEventListeners();
+            reAttachEditEventListeners();
             hljs.highlightAll();
             })
     }
 
     handleReplyDeletion();
+
+    const handleReplyEditionAction = (): void => {
+        const form = document.querySelector(".edit-element-form") as HTMLFormElement;
+        if (form) {
+            form.addEventListener("submit", async (event: Event): Promise<void> => {
+                event.preventDefault();
+                const textArea = form.querySelector('textarea') as HTMLTextAreaElement;
+                if (textArea) {
+                    const textAreaValue: string = textArea.value;
+                    const postId: string = extractPostIdFromUrl();
+                    console.log(form.getAttribute("data-reply-id"))
+                    const response: string = await replyService.handleReplyEdition(textAreaValue, form.getAttribute("data-reply-id"), postId);
+                    document.getElementById("post-reply-results").innerHTML = response;
+                    toggleEditModal();
+                    reAttachDeleteEventListeners();
+                    reAttachEditEventListeners();
+                    hljs.highlightAll();
+                }
+            });
+        }
+    };
+
+    handleReplyEditionAction();
 });
  

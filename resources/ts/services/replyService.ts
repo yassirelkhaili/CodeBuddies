@@ -18,6 +18,16 @@ class ReplyService {
         }
     }
 
+    public async handleReplyEdition(reply: string, replyId: string, postId: string): Promise<string> {
+        try {
+            const response = await axios.put<string>(`${this.BASE_URL}/${replyId}`, { reply: reply, post_id: postId });
+            return response.data;
+        } catch (error) {
+            console.error("An error occurred:", error);
+            throw error; 
+        }
+    }
+
     public async handleReplyDeletion(replyId: string): Promise<string> {
         try {
             const response = await axios.delete<string>(`${this.BASE_URL}/${replyId}`);
