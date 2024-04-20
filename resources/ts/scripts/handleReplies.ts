@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
                 const searchInput = document.getElementById('reply-editor') as HTMLInputElement;
                 if (searchInput) {
                     const searchValue: string = searchInput.value;
+                    searchInput.value = "";
                     const postId: string = extractPostIdFromUrl();
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
             document.getElementById("post-reply-results").innerHTML = response;
             toggleDeleteModal();
             reAttachDeleteEventListeners();
+            hljs.highlightAll();
             })
     }
 
