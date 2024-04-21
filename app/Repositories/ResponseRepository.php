@@ -61,7 +61,7 @@ class ResponseRepository implements ResponseRepositoryInterface
 
     public function getResponsesByPost(int $postId)
     {
-        return Response::where('post_id', $postId)->orderBy('created_at', 'desc')->paginate(9);
+        return Response::where('post_id', $postId)->orderBy('votes', 'desc')->orderBy('created_at', 'desc')->paginate(9);
     }
 
     public static function isAnswerMarked(int $postId)

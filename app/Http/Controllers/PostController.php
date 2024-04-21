@@ -17,21 +17,6 @@ class PostController extends Controller
     {
         $this->postRepository = $postRepository;
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     public function filter(Request $request, int $threadId): View | String
     {
@@ -58,19 +43,11 @@ class PostController extends Controller
     {
         try {
             $result = $this->postRepository->getById($id);
-            $responses = $result->responses()->orderBy('created_at', 'desc')->paginate(9);
+            $responses = $result->responses()->orderBy('votes', 'desc')->orderBy('created_at', 'desc')->paginate(9);
             return view("post")->with(["post" => $result, "responses" => $responses]);
         } catch (ModelNotFoundException $error) {
             return redirect()->back()->with('status', 'The requested post could not be found. ErrorCode: ' . $error);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
     }
 
     /**
@@ -88,4 +65,71 @@ class PostController extends Controller
     {
         //
     }
+
+    public function upvote(Request $request, $postId)
+{
+    try {
+        $user = auth()->user();
+        $post = $this->postRepository->getById(intval($postId));
+        $existingVote = $post->votes()->where('user_id', $user->id)->where('votable_type', get_class($post))->first();
+
+        if ($existingVote) {
+            if ($existingVote->vote_type === "up") {
+                $existingVote->delete();
+                $this->postRepository->update(intval($postId), ["votes" => $post->votes - 1]);
+            } else {
+                $existingVote->update(["vote_type" => "up"]);
+                $this->postRepository->update(intval($postId), ["votes" => $post->votes + 2]);
+            }
+        } else {
+            $post->votes()->create([
+                'user_id' => $user->id,
+                'vote_type' => 'up',
+                'votable_type' => get_class($post),
+                'votable_id' => intval($postId)
+            ]);
+            $this->postRepository->update(intval($postId), ["votes" => $post->votes + 1]);
+        }
+        $newPost = $this->postRepository->getById(intval($postId));
+        $viewTemplate = $request->ajax() ? "layouts.votes" : "post";
+        return view($viewTemplate, ["post" => $newPost])->render();
+    } catch (ModelNotFoundException $error) {
+        return redirect()->back()->with('status', 'Could not find post. ErrorCode: ' . $error->getMessage());
+    }
+}
+
+public function downvote(Request $request, $postId)
+{
+    try {
+        $user = auth()->user();
+        $post = $this->postRepository->getById(intval($postId));
+        $existingVote = $post->votes()
+            ->where('user_id', $user->id)
+            ->where('votable_type', get_class($post))
+            ->first();
+
+        if ($existingVote) {
+            if ($existingVote->vote_type === "down") {
+                $existingVote->delete();
+                $this->postRepository->update(intval($postId), ["votes" => $post->votes + 1]);
+            } else {
+                $existingVote->update(["vote_type" => "down"]);
+                $this->postRepository->update(intval($postId), ["votes" => $post->votes - 2]);
+            }
+        } else {
+            $post->votes()->create([
+                'user_id' => $user->id,
+                'vote_type' => 'down',
+                'votable_type' => get_class($post),
+                'votable_id' => intval($postId)
+            ]);
+            $this->postRepository->update(intval($postId), ["votes" => $post->votes - 1]);
+        }
+        $newPost = $this->postRepository->getById(intval($postId));
+        $viewTemplate = $request->ajax() ? "layouts.votes" : "post";
+        return view($viewTemplate, ["post" => $newPost])->render();
+    } catch (ModelNotFoundException $error) {
+        return redirect()->back()->with('status', 'Could not find post. ErrorCode: ' . $error->getMessage());
+    }
+}
 }

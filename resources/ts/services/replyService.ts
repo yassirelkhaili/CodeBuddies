@@ -87,6 +87,51 @@ class ReplyService {
             throw error;
         }
     }
+
+    public async updateResponeCount(postId: string): Promise<string> {
+        try {
+            const response = await axios.get<string>(`${this.BASE_URL}/responseCount/${postId}`);
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
+
+    public async upvoteReponse(replyId: string): Promise<string> {
+        try {
+            const response = await axios.post<string>(`${this.BASE_URL}/upvote/${replyId}`);
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
+
+    public async downvoteResponse(replyId: string): Promise<string> {
+        try {
+            const response = await axios.post<string>(`${this.BASE_URL}/downvote/${replyId}`);
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
 }
 
 const replyService = new ReplyService();

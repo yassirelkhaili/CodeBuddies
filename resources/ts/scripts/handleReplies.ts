@@ -5,12 +5,10 @@
 
 import { extractPostIdFromUrl } from "../helpers";
 import replyService from "../services/replyService";
-import hljs from 'highlight.js';
 import { reAttachEventListeners } from "../helpers";
 import { toggleDeleteModal } from "./deleteModalScript";
 import { toggleEditModal } from "./editModalScript";
 
-document.addEventListener("DOMContentLoaded", (): void => {
     const handleReplyPostAction = (): void => {
         const form = document.getElementById('create-reply-form') as HTMLFormElement;
         if (form) {
@@ -24,7 +22,6 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     reAttachEventListeners();
-                    hljs.highlightAll();
                 }
             });
         }
@@ -42,7 +39,6 @@ document.addEventListener("DOMContentLoaded", (): void => {
             document.getElementById("post-reply-results").innerHTML = response;
             toggleDeleteModal();
             reAttachEventListeners();
-            hljs.highlightAll();
             })
     }
 
@@ -57,12 +53,10 @@ document.addEventListener("DOMContentLoaded", (): void => {
                 if (textArea) {
                     const textAreaValue: string = textArea.value;
                     const postId: string = extractPostIdFromUrl();
-                    console.log(form.getAttribute("data-reply-id"))
                     const response: string = await replyService.handleReplyEdition(textAreaValue, form.getAttribute("data-reply-id"), postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     toggleEditModal();
                     reAttachEventListeners();
-                    hljs.highlightAll();
                 }
             });
         }
@@ -70,7 +64,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
 
     handleReplyEditionAction();
 
-    const handleReplyMarkAsAnswer = (): void => {
+    export const handleReplyMarkAsAnswer = (): void => {
         const markButtons = document.querySelectorAll(".mark-element-button") as NodeListOf<HTMLButtonElement>;
         markButtons && markButtons.forEach((markButton: HTMLButtonElement): void => {
             markButton && markButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
@@ -80,16 +74,13 @@ document.addEventListener("DOMContentLoaded", (): void => {
                 const response: string = await replyService.markReponseAsAnswer(replyId, postId);
                 document.getElementById("post-reply-results").innerHTML = response;
                 reAttachEventListeners();
-                handleReplyMarkAsAnswer();
-                handleReplyUnmarkAsAnswer();
-                hljs.highlightAll();
             })
         })
     };
 
     handleReplyMarkAsAnswer();
 
-    const handleReplyUnmarkAsAnswer = (): void => {
+    export const handleReplyUnmarkAsAnswer = (): void => {
         const unmarkButtons = document.querySelectorAll(".unmark-element-button") as NodeListOf<HTMLButtonElement>;
         unmarkButtons && unmarkButtons.forEach((unmarkButton: HTMLButtonElement): void => {
             unmarkButton && unmarkButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
@@ -99,13 +90,41 @@ document.addEventListener("DOMContentLoaded", (): void => {
                 const response: string = await replyService.unmarkReponseAsAnswer(replyId, postId);
                 document.getElementById("post-reply-results").innerHTML = response;
                 reAttachEventListeners();
-                handleReplyMarkAsAnswer();
-                handleReplyUnmarkAsAnswer();
-                hljs.highlightAll();
             })
         })
     };
 
     handleReplyUnmarkAsAnswer();
-});
+
+    export const handleReplyUpvote = (): void => {
+        const upvoteButtons = document.querySelectorAll(".upvote-button") as NodeListOf<HTMLButtonElement>;
+        upvoteButtons && upvoteButtons.forEach((upvoteButton: HTMLButtonElement): void => {
+            upvoteButton && upvoteButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
+                event.stopPropagation();
+                const eventTarget = event.currentTarget as HTMLButtonElement;
+                const replyId: string = eventTarget.getAttribute("data-reply-id");
+                const response: string = await replyService.upvoteReponse(replyId);
+                document.getElementById("post-reply-results").innerHTML = response;
+                reAttachEventListeners();
+            })
+        })
+    };
+
+    handleReplyUpvote();
+
+    export const handleReplyDownvote = (): void => {
+        const downvoteButtons = document.querySelectorAll(".downvote-button") as NodeListOf<HTMLButtonElement>;
+        downvoteButtons && downvoteButtons.forEach((downvoteButton: HTMLButtonElement): void => {
+            downvoteButton && downvoteButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
+                event.stopPropagation();
+                const eventTarget = event.currentTarget as HTMLButtonElement;
+                const replyId: string = eventTarget.getAttribute("data-reply-id");
+                const response: string = await replyService.downvoteResponse(replyId);
+                document.getElementById("post-reply-results").innerHTML = response;
+                reAttachEventListeners();
+            })
+        })
+    };
+
+    handleReplyDownvote();
  

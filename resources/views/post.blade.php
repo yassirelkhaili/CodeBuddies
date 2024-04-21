@@ -9,11 +9,20 @@
                         <img id="avatarButton" type="button" data-dropdown-placement="bottom-start"
                             class="aspect-square h-7 rounded cursor-pointer"
                             src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}'s Avatar">
-                        <p class="text-blue-700 dark:text-blue-500 text-lg font-semibold">{{ $post->user->name }} <span
-                                class="text-gray-600 dark:text-gray-500">·</span> {{ $post->created_at->format('d M') }}
-                            <span class="text-gray-600 dark:text-gray-500">·</span> {{ $post->responses()->count() }}
-                            {{ $post->responses()->count() === 1 ? 'response' : 'responses' }}
-                        </p>
+                        <div class="flex flex-row gap-1 text-blue-700 dark:text-blue-500 text-lg font-semibold">
+                            {{ $post->user->name }} <span class="text-gray-600 dark:text-gray-500">·</span>
+                            {{ $post->created_at->format('d M') }}
+                            <span class="text-gray-600 dark:text-gray-500">·</span> <span id="response-count">
+                                {{ $post->responses()->count() }}
+                                {{ $post->responses()->count() === 1 ? 'response' : 'responses' }}
+                            </span>
+                            @if (auth()->check())
+                                <span class="text-gray-600 dark:text-gray-500">·</span>
+                                <span class="flex justify-center items-center gap-1 text-blue-700 dark:text-blue-500" id="vote-results">
+                                    @include('layouts.votes')
+                                </span>
+                            @endif
+                        </div>
                     </div>
                     <p class="text-gray-500 sm:text-xl dark:text-gray-400">{{ $post->content }}</p>
                 </div>
@@ -48,8 +57,11 @@
                         class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
                         Post Reply
                     </button>
-                    <p class="text-gray-500 sm:text-md dark:text-gray-400 mt-2">Hightlight your code like so: ```{supportedLanguage} {code}```.
-                        Example: ```javascript console.log("Hello CodeBuddies")```. See list of <a href="https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md" class="underline" target="__blank">supported languages.</a></p>
+                    <p class="text-gray-500 sm:text-md dark:text-gray-400 mt-2">Hightlight your code like so:
+                        ```{supportedLanguage} {code}```.
+                        Example: ```javascript console.log("Hello CodeBuddies")```. See list of <a
+                            href="https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md"
+                            class="underline" target="__blank">supported languages.</a></p>
                 </form>
                 <div id="post-reply-results">
                     @include('layouts.replies')
@@ -73,14 +85,14 @@
             </p>
 
             <div
-            class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-            <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
-                <label for="editor" class="sr-only">Edit reply</label>
-                <textarea id="reply-editor" rows="8"
-                    class="reply-textarea block w-full px-0 text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-                    placeholder="Edit the reply..." required></textarea>
+                class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
+                    <label for="editor" class="sr-only">Edit reply</label>
+                    <textarea id="reply-editor" rows="8"
+                        class="reply-textarea block w-full px-0 text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                        placeholder="Edit the reply..." required></textarea>
+                </div>
             </div>
-        </div>
 
             <div class="mt-6 flex justify-end">
                 <x-secondary-button class="cancel-edit-modal-element">
