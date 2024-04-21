@@ -17,21 +17,6 @@ class PostController extends Controller
     {
         $this->postRepository = $postRepository;
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     public function filter(Request $request, int $threadId): View | String
     {
@@ -58,19 +43,11 @@ class PostController extends Controller
     {
         try {
             $result = $this->postRepository->getById($id);
-            $responses = $result->responses()->orderBy('created_at', 'desc')->paginate(9);
+            $responses = $result->responses()->orderBy('votes', 'desc')->orderBy('created_at', 'desc')->paginate(9);
             return view("post")->with(["post" => $result, "responses" => $responses]);
         } catch (ModelNotFoundException $error) {
             return redirect()->back()->with('status', 'The requested post could not be found. ErrorCode: ' . $error);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
     }
 
     /**

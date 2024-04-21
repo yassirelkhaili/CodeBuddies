@@ -49,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/replies/mark/{id}", [ResponseController::class, 'mark'])->name("response.mark");
     Route::post("/replies/unmark/{id}", [ResponseController::class, 'unmark'])->name("response.unmark");
     Route::get("/replies/responseCount/{id}", [ResponseController::class, 'count'])->name("response.count");
+    //Votes
+    Route::post("/replies/upvote/{id}", [ResponseController::class, 'upvote'])->name("response.upvote");
+    Route::post("/replies/downvote/{id}", [ResponseController::class, 'downvote'])->name("response.downvote");
     //Auth Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

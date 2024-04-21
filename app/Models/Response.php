@@ -23,4 +23,12 @@ class Response extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function votes() {
+        return $this->morphMany(Vote::class, 'votable');
+    }
+
+    public function hasUserVoted(int $userId) {
+        return $this->votes()->where('user_id', $userId)->exists();
+    }
 }

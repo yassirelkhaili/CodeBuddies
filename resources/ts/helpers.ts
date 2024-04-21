@@ -1,6 +1,8 @@
 import { toggleDeleteModal } from "./scripts/deleteModalScript";
 import { toggleEditModal } from "./scripts/editModalScript";
 import replyService from "./services/replyService";
+import { handleReplyMarkAsAnswer, handleReplyUnmarkAsAnswer, handleReplyDownvote, handleReplyUpvote } from "./scripts/handleReplies";
+import hljs from "highlight.js";
 
 export default function extractForumIdFromUrl (): string {
     const pathname: string = window.location.pathname;
@@ -30,4 +32,9 @@ export function reAttachEventListeners (): void {
     const editButtons = document.querySelectorAll(".edit-element-button");
     editButtons.forEach((editButton: HTMLButtonElement) => editButton && editButton.addEventListener("click", toggleEditModal));
     updateResponseCount();
+    handleReplyMarkAsAnswer();
+    handleReplyUnmarkAsAnswer();
+    handleReplyDownvote();
+    handleReplyUpvote();
+    hljs.highlightAll();
 }
