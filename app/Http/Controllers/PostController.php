@@ -90,8 +90,9 @@ class PostController extends Controller
             ]);
             $this->postRepository->update(intval($postId), ["votes" => $post->votes + 1]);
         }
+        $newPost = $this->postRepository->getById(intval($postId));
         $viewTemplate = $request->ajax() ? "layouts.votes" : "post";
-        return view($viewTemplate, ["post" => $post])->render();
+        return view($viewTemplate, ["post" => $newPost])->render();
     } catch (ModelNotFoundException $error) {
         return redirect()->back()->with('status', 'Could not find post. ErrorCode: ' . $error->getMessage());
     }
@@ -124,8 +125,9 @@ public function downvote(Request $request, $postId)
             ]);
             $this->postRepository->update(intval($postId), ["votes" => $post->votes - 1]);
         }
+        $newPost = $this->postRepository->getById(intval($postId));
         $viewTemplate = $request->ajax() ? "layouts.votes" : "post";
-        return view($viewTemplate, ["post" => $post])->render();
+        return view($viewTemplate, ["post" => $newPost])->render();
     } catch (ModelNotFoundException $error) {
         return redirect()->back()->with('status', 'Could not find post. ErrorCode: ' . $error->getMessage());
     }

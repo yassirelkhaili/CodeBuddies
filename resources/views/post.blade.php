@@ -17,16 +17,6 @@
                                 {{ $post->responses()->count() === 1 ? 'response' : 'responses' }}
                             </span>
                             @if (auth()->check())
-                                @php
-                                    $upvoteClass =
-                                        $existingVote && $existingVote->vote_type === 'up'
-                                            ? 'text-purple-700 dark:text-purple-500'
-                                            : '';
-                                    $downvoteClass =
-                                        $existingVote && $existingVote->vote_type === 'down'
-                                            ? 'text-purple-700 dark:text-purple-500'
-                                            : '';
-                                @endphp
                                 <span class="text-gray-600 dark:text-gray-500">·</span>
                                 <span class="flex justify-center items-center gap-1 text-blue-700 dark:text-blue-500" id="vote-results">
                                     @include('layouts.votes')

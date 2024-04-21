@@ -12,7 +12,8 @@ class Post extends Model
     protected $fillable = [
         'content',
         'user_id',
-        'thread_id'
+        'thread_id',
+        'votes'
     ];
 
     public function thread()
