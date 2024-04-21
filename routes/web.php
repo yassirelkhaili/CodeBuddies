@@ -52,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
     //Votes
     Route::post("/replies/upvote/{id}", [ResponseController::class, 'upvote'])->name("response.upvote");
     Route::post("/replies/downvote/{id}", [ResponseController::class, 'downvote'])->name("response.downvote");
+    Route::post("/posts/upvote/{id}", [PostController::class, 'upvote'])->name("post.upvote");
+    Route::post("/posts/downvote/{id}", [PostController::class, 'downvote'])->name("post.downvote");
     //Auth Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

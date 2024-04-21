@@ -12,7 +12,8 @@ class Response extends Model
         'content',
         'user_id',
         'post_id',
-        'answer'
+        'answer',
+        'votes'
     ];
 
     public function post()

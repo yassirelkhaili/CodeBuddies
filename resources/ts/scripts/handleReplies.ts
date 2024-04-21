@@ -53,7 +53,6 @@ import { toggleEditModal } from "./editModalScript";
                 if (textArea) {
                     const textAreaValue: string = textArea.value;
                     const postId: string = extractPostIdFromUrl();
-                    console.log(form.getAttribute("data-reply-id"))
                     const response: string = await replyService.handleReplyEdition(textAreaValue, form.getAttribute("data-reply-id"), postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     toggleEditModal();
@@ -101,7 +100,8 @@ import { toggleEditModal } from "./editModalScript";
         const upvoteButtons = document.querySelectorAll(".upvote-button") as NodeListOf<HTMLButtonElement>;
         upvoteButtons && upvoteButtons.forEach((upvoteButton: HTMLButtonElement): void => {
             upvoteButton && upvoteButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
-                const eventTarget = event.target as HTMLButtonElement;
+                event.stopPropagation();
+                const eventTarget = event.currentTarget as HTMLButtonElement;
                 const replyId: string = eventTarget.getAttribute("data-reply-id");
                 const response: string = await replyService.upvoteReponse(replyId);
                 document.getElementById("post-reply-results").innerHTML = response;
@@ -116,7 +116,8 @@ import { toggleEditModal } from "./editModalScript";
         const downvoteButtons = document.querySelectorAll(".downvote-button") as NodeListOf<HTMLButtonElement>;
         downvoteButtons && downvoteButtons.forEach((downvoteButton: HTMLButtonElement): void => {
             downvoteButton && downvoteButton.addEventListener("click", async (event: MouseEvent): Promise<void> => {
-                const eventTarget = event.target as HTMLButtonElement;
+                event.stopPropagation();
+                const eventTarget = event.currentTarget as HTMLButtonElement;
                 const replyId: string = eventTarget.getAttribute("data-reply-id");
                 const response: string = await replyService.downvoteResponse(replyId);
                 document.getElementById("post-reply-results").innerHTML = response;

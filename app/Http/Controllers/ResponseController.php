@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MarkAsAnswerRequest;
-use App\Models\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
@@ -114,28 +113,28 @@ class ResponseController extends Controller
         }
     }
 
-    public function upvote(Request $request, int $responseId)
+    public function upvote(Request $request, string $responseId)
     {
         try {
             $user = auth()->user();
-            $response = $this->responseRepository->getById($responseId);
+            $response = $this->responseRepository->getById(intval($responseId));
             $existingVote = $response->votes()->where('user_id', $user->id)->where('votable_type', get_class($response))->first();
             if ($existingVote) {
                 if ($existingVote->vote_type === "up") {
                     $existingVote->delete();
-                    $this->responseRepository->update($responseId, ["votes" => $response->votes - 1]);
+                    $this->responseRepository->update(intval($responseId), ["votes" => $response->votes - 1]);
                 } else {
                     $existingVote->update(["vote_type" => "up"]);
-                    $this->responseRepository->update($responseId, ["votes" => $response->votes + 2]);
+                    $this->responseRepository->update(intval($responseId), ["votes" => $response->votes + 2]);
                 }
             } else {
                 $response->votes()->create([
                     'user_id' => $user->id,
                     'vote_type' => 'up',
                     'votable_type' => get_class($response),
-                    'votable_id' => $responseId
+                    'votable_id' => intval($responseId)
                 ]);
-                $this->responseRepository->update($responseId, ["votes" => $response->votes + 1]);
+                $this->responseRepository->update(intval($responseId), ["votes" => $response->votes + 1]);
             }
             $responses = $this->responseRepository->getResponsesByPost($response->post->id);
             $viewTemplate = $request->ajax() ? "layouts.replies" : "post";

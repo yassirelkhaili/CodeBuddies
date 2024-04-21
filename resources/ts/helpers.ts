@@ -3,6 +3,7 @@ import { toggleEditModal } from "./scripts/editModalScript";
 import replyService from "./services/replyService";
 import { handleReplyMarkAsAnswer, handleReplyUnmarkAsAnswer, handleReplyDownvote, handleReplyUpvote } from "./scripts/handleReplies";
 import hljs from "highlight.js";
+import { handlePostDownvote, handlePostUpvote } from "./scripts/handlePostsScript";
 
 export default function extractForumIdFromUrl (): string {
     const pathname: string = window.location.pathname;
@@ -37,4 +38,9 @@ export function reAttachEventListeners (): void {
     handleReplyDownvote();
     handleReplyUpvote();
     hljs.highlightAll();
+}
+
+export function reAttachPostEventListeners (): void {
+    handlePostDownvote();
+    handlePostUpvote();
 }
