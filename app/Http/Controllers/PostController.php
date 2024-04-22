@@ -33,7 +33,13 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $threadId = $request->input("thread_id");
+        $content = $request->input("content");
+        $title = $request->input("title");
+        $this->postRepository->create(["thread_id" => $threadId, "content" => $content, "title" => $title, "user_id" => auth()->user()->id]);
+        $posts = $this->postRepository->getAllByThread($threadId);
+        $viewTemplate = $request->ajax() ? "layouts.posts" : "thread";
+        return view($viewTemplate, ["posts" => $posts])->render();
     }
 
     /**

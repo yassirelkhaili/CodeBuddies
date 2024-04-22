@@ -11,7 +11,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -22,7 +22,9 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'content' => 'required|string|max:10000',
+            'thread_id' => 'required|integer|min:1|exists:threads,id',
+            'title' => 'required|string|max:255',
         ];
     }
 }

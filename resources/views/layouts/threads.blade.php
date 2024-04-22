@@ -1,6 +1,6 @@
 <div class="space-y-8 grid grid-cols-1 md:gap-12 md:space-y-0">
     @forelse ($threads as $thread)
-      <a href="{{route("threads.show", $thread->id)}}" class="hover:bg-gray-800 rounded-md hover:cursor-pointer">
+      <a href="{{route("threads.show", $thread->id)}}" class="hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md hover:cursor-pointer">
         <div class="p-5">
             <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full lg:h-12 lg:w-12">
                 <img alt="laravel-logo" loading="lazy" width="30" height="30" decoding="async" data-nimg="1"

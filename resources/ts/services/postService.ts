@@ -32,6 +32,21 @@ class PostService {
             throw error;
         }
     }
+
+    public async createPost(threadId: string, formProps: Record<string, any>): Promise<string> {
+        try {
+            const response = await axios.post<string>(`${this.BASE_URL}`, {thread_id: threadId, ...formProps});
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
 }
 
 const postService = new PostService();

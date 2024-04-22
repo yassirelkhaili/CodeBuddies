@@ -24,7 +24,7 @@
                             @endif
                         </div>
                     </div>
-                    <p class="text-gray-500 sm:text-xl dark:text-gray-400">{{ $post->content }}</p>
+                    <p class="text-gray-500 sm:text-xl dark:text-gray-400">{!! \App\Services\CodeHighlightService::formatResponseContent($post->content) !!}</p>
                 </div>
             </div>
             <div class="space-y-8 grid grid-cols-1 md:gap-5 md:space-y-0">

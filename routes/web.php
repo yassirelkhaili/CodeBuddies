@@ -45,6 +45,8 @@ Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'
 Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 
 Route::middleware(['auth'])->group(function () {
+    //Thread Routes
+    Route::resource('/posts', PostController::class)->middleware(['throttle:8,1']);
     //Resource Routes
     Route::post("/replies/mark/{id}", [ResponseController::class, 'mark'])->name("response.mark");
     Route::post("/replies/unmark/{id}", [ResponseController::class, 'unmark'])->name("response.unmark");
