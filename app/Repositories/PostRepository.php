@@ -9,7 +9,7 @@ class PostRepository implements PostRepositoryInterface
 {
     public function getById($id)
     {
-        return Post::findOrFail($id);
+        return Post::with('responses')->findOrFail($id);
     }
 
     public function create(array $data)
@@ -36,16 +36,16 @@ class PostRepository implements PostRepositoryInterface
     }
 
     public function getAll() {
-        return Post::orderBy('created_at', 'desc')->paginate(9);
+        return Post::with('responses')->orderBy('votes', 'desc')->orderBy('created_at', 'desc')->paginate(9);
     }    
 
     public function getAllNoPaginate() {
-        return Post::all();
+        return Post::with('responses')->all();
     }
 
     public function filterByThread(string $filterInput, int $threadId)
     {
-        return Post::where('thread_id', $threadId)
+        return Post::with('responses')->where('thread_id', $threadId)
             ->where('title', 'like', '%' . $filterInput . '%')
             ->paginate(9);
     }
@@ -53,6 +53,7 @@ class PostRepository implements PostRepositoryInterface
     public function getAllByThread(int $threadId)
     {
         return Post::where('thread_id', $threadId)
+            ->orderBy('votes', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(9);
     }
