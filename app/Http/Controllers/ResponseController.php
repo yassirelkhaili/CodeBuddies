@@ -94,10 +94,11 @@ class ResponseController extends Controller
     {
         try {
             $postId = $this->responseRepository->getById($responseId)->post->id;
+            $post = $this->postRepository->getById($postId);
             $this->responseRepository->delete($responseId);
             $responses = $this->responseRepository->getResponsesByPost($postId);
             $viewTemplate = $request->ajax() ? "layouts.replies" : "post";
-            return view($viewTemplate, ["responses" => $responses])->render();
+            return view($viewTemplate, ["responses" => $responses, 'post' => $post])->render();
         } catch (ModelNotFoundException $error) {
             return redirect()->back()->with('status', 'The requested response could not be found. ErrorCode: ' . $error);
         }

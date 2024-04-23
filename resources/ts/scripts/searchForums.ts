@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
                     const threadId: string = extractThreadIdFromUrl();
                     const response: string = await searchService.handleThreadFilter(filterValue, threadId);
                     document.getElementById("filter-results-posts").innerHTML = response;
+                    console.log(document.getElementById("filter-results-posts"))
                 }
             });
         }

@@ -14,7 +14,7 @@
                             {{ $post->created_at->format('d M') }}
                             <span class="text-gray-600 dark:text-gray-500">·</span> <span id="response-count">
                                 {{ $post->responses()->count() }}
-                                {{ $post->responses()->count() === 1 ? 'response' : 'responses' }}
+                                {{ $post->responses()->count() === 1 ? ' response' : 'responses' }}
                             </span>
                             @if (auth()->check())
                                 <span class="text-gray-600 dark:text-gray-500">·</span>
