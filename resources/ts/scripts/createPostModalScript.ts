@@ -2,7 +2,6 @@
  * @author Yassir Elkhaili
  * @license GPL-3.0
  * **/
-import postService from "../services/postService";
 
 const openButton = document.querySelectorAll(
     ".open-create-post-button"
@@ -46,28 +45,3 @@ export default function handlepostModal(): void {
 }
 
 handlepostModal();
-
-export const handlePostCreation = (): void => {
-    postModal &&
-        postModal.forEach((postModal: HTMLFormElement): void => {
-            postModal &&
-                postModal.addEventListener("submit", async (event: SubmitEvent): Promise<void> => {
-                    event.preventDefault();
-                    const eventTarget = event.target as HTMLFormElement;
-                    const threadId = eventTarget.getAttribute("data-thread-id");
-                    const formData = new FormData(eventTarget);
-                    const formProps: Record<string, any> = {};
-                    formData.forEach((value, key) => {
-                        formProps[key] = value;
-                    });
-                    const response: string = await postService.createPost(
-                        threadId,
-                        formProps
-                    );
-                    togglepostModal();
-                    document.querySelector(".filter-results-posts").innerHTML = response;
-                });
-        });
-};
-
-handlePostCreation();

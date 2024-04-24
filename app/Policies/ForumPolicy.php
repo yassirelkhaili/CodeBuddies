@@ -2,65 +2,57 @@
 
 namespace App\Policies;
 
-use App\Models\Forum;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use App\Models\Forum;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ForumPolicy
 {
+    use HandlesAuthorization;
+
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any forums.
+     *
+     * @param  \App\Models\User  $user
+     * @return mixed
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user)
     {
-        //
+        return true; // Allow viewing forums for any user
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can create forums.
+     *
+     * @param  \App\Models\User  $user
+     * @return mixed
      */
-    public function view(User $user, Forum $forum): bool
+    public function create(User $user)
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can update the Forum.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Forum  $Forum
+     * @return mixed
      */
-    public function create(User $user): bool
+    public function update(User $user, Forum $Forum)
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can delete the Forum.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Forum  $Forum
+     * @return mixed
      */
-    public function update(User $user, Forum $forum): bool
+    public function delete(User $user, Forum $Forum)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Forum $forum): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Forum $forum): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Forum $forum): bool
-    {
-        //
+        return $user->role === 'admin';
     }
 }

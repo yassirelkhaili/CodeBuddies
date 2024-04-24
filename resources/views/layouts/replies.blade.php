@@ -81,8 +81,6 @@
                     </span>
                     <span class="text-gray-600 dark:text-gray-500">·</span>
                 @endif
-                <a href="#"
-                    class="text-gray-600 dark:text-gray-500 hover:text-gray-900 hover:dark:text-gray-400">Report</a>
                 @if (auth()->check() && $response->user->id === auth()->user()->id)
                     <span class="text-gray-600 dark:text-gray-500">·</span>
                     <button type="button" class="text-yellow-400 dark:text-yellow-500 underline edit-element-button"

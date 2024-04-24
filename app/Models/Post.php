@@ -13,7 +13,8 @@ class Post extends Model
         'content',
         'user_id',
         'thread_id',
-        'votes'
+        'votes',
+        'title'
     ];
 
     public function thread()
