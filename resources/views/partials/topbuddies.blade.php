@@ -26,7 +26,7 @@
                     <div class="relative h-56 overflow-hidden rounded-lg md:h-96 mt-8 lg:mt-0">
                         @php
                             use App\Models\User;
-                            $users = User::withCount('responses')->orderBy('responses_count', 'desc')->get();
+                            $users = User::withCount('responses')->orderBy('responses_count', 'desc')->get(5);
                         @endphp
                         @foreach ($users as $user)
                         <div class="hidden duration-700 ease-in-out" data-carousel-item>

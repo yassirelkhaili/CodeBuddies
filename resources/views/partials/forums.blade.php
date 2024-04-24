@@ -11,10 +11,11 @@
         <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
             @foreach ($topThreePopularForums as $popularForum)
                 <div
-                    class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    class="flex justify-between items-start flex-col max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full lg:h-12 lg:w-12">
-                        <img alt="laravel-logo" loading="lazy" width="30" height="30" decoding="async" data-nimg="1"
-                            style="color:transparent" src="{{ asset('storage/' . $popularForum->avatar) }}">
+                        <span class="dark:text-blue-600 text-gray-700">
+                            <i class="fa {{$popularForum->avatar}}" aria-hidden="true"></i>
+                        </span>
                     </div>
                     <a href="{{route("forums.show", $popularForum->id)}}">
                         <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{$popularForum->name}}</h5>
