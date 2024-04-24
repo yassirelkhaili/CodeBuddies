@@ -6,9 +6,7 @@
     @endsession
     <x-hero />
     <x-about />
-    <x-stats />
     <x-topbuddies />
     <x-tech />
-    <x-forums />
-    <x-latest />
+    <x-forums :topThreePopularForums="$topThreePopularForums" />
 </x-main_layout>

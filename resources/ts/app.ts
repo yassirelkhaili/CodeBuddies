@@ -10,3 +10,5 @@ import "./scripts/handleReplies";
 import "./scripts/editModalScript";
 import "./scripts/handlePostsScript";
 import "./scripts/createPostModalScript";
+import "./scripts/editPostModalScript";
+import "./scripts/aboutButtonScript";

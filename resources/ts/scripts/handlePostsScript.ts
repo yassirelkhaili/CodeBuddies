@@ -95,7 +95,7 @@ export const handlePostEditAction = (): void => {
                         formProps[key] = value;
                     });
                     const response: string = await postService.editPost(
-                        postId,
+                        eventTarget.getAttribute("data-post-id"),
                         formProps
                     );
                     toggleEditModal();

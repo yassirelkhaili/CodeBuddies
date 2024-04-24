@@ -63,12 +63,34 @@ class PostController extends Controller
         }
     }
 
+    public function fetchPost(int $responseId)
+    {
+        try {
+            $postContent = $this->postRepository->getById($responseId)->content;
+            $postTitle = $this->postRepository->getById($responseId)->title;
+            return response()->json(["title" => $postTitle, "content" => $postContent]);
+        } catch (ModelNotFoundException $error) {
+            return response()->json("The requested response could not be found. ErrorCode: $error");
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, int $postId)
     {
-        //
+        try {
+            $content = $request->input("content");
+            $title = $request->input("title");
+            $post = $this->postRepository->getById($postId);
+            $this->postRepository->update($postId, ["content" => $content, "title" => $title]);
+            $posts = $this->postRepository->getAllByThread($post->thread->id);
+            $thread = $this->threadRepository->getById($post->thread->id);
+            $viewTemplate = $request->ajax() ? "layouts.posts" : "thread";
+            return view($viewTemplate, ["posts" => $posts, "thread" => $thread])->render();
+        } catch (ModelNotFoundException $error) {
+            return redirect()->back()->with('status', 'The requested post could not be found. ErrorCode: ' . $error);
+        }
     }
 
     /**

@@ -63,9 +63,24 @@ class PostService {
         }
     }
 
-    public async editPost(postId: string, content: Record<string, any>): Promise<string> {
+   public async editPost(postId: string, content: Record<string, any>): Promise<string> {
         try {
-            const response = await axios.put<string>(`${this.BASE_URL}/resource`, {post_id: postId, ...content});
+            const response = await axios.put<string>(`${this.BASE_URL}/resource/${postId}`, {...content});
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            }
+            console.error("An error occurred:", error);
+            throw error;
+        }
+    }
+
+    public async fetchPost(postId: string): Promise<{title: string, content: string}> {
+        try {
+            const response = await axios.get<{title: string, content: string}>(`${this.BASE_URL}/resource/fetch/${postId}`);
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -78,7 +93,6 @@ class PostService {
         }
     }
 }
-
 const postService = new PostService();
 
 export default postService;

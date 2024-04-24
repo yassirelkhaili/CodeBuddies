@@ -1,4 +1,4 @@
-<section class="bg-white dark:bg-gray-900">
+<section class="bg-white dark:bg-gray-900" id="tech-section">
     <div class="pb-8 px-4 mx-auto max-w-screen-xl sm:pb-16 lg:px-6">
         <div class="max-w-screen-md mb-4 lg:mb-8">
             <h2 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Explore the Foundation of CodeBuddies</h2>

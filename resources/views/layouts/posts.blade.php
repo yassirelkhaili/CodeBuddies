@@ -8,8 +8,9 @@
                             <img alt="laravel-logo" loading="lazy" width="25" height="25" class="rounded-sm"
                                 decoding="async" data-nimg="1" style="color:transparent"
                                 src="{{ asset('storage/' . $post->user->avatar) }}">
-                            <p class="text-blue-700 dark:text-blue-500 text-lg font-semibold">{{ $post->user->name }} <span
-                                    class="text-gray-600 dark:text-gray-500">·</span> {{ $post->created_at->format('d M') }}
+                            <p class="text-blue-700 dark:text-blue-500 text-lg font-semibold">{{ $post->user->name }}
+                                <span class="text-gray-600 dark:text-gray-500">·</span>
+                                {{ $post->created_at->format('d M') }}
                                 <span class="text-gray-600 dark:text-gray-500">·</span>
                                 {{ $post->created_at->diffForHumans() }}
                             </p>
@@ -23,15 +24,15 @@
                             </svg>
                             <span class="text-lg font-semibold">{{ $post->responses->count() }}
                                 {{ $post->responses->count() === 1 ? 'response' : 'responses' }}</span>
-                                <span class="text-gray-600 dark:text-gray-500">·</span>
-                                <span class="text-lg font-semibold" id="vote-count">{{ $post->votes }}
-                                    {{ $post->votes === 1 || $post->votes === -1 ? 'vote' : 'votes' }}</span>
+                            <span class="text-gray-600 dark:text-gray-500">·</span>
+                            <span class="text-lg font-semibold" id="vote-count">{{ $post->votes }}
+                                {{ $post->votes === 1 || $post->votes === -1 ? 'vote' : 'votes' }}</span>
                         </div>
                         @if ($post->responses->where('answer', 1)->isNotEmpty())
                             <div class="flex justify- gap-1 items-center text-green-700 dark:text-green-500">
-                                <svg fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px"
-                                    viewBox="0 0 305.002 305.002" xml:space="preserve">
+                                <svg fill="currentColor" version="1.1" id="Capa_1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    width="25px" height="25px" viewBox="0 0 305.002 305.002" xml:space="preserve">
                                     <g>
                                         <g>
                                             <path d="M152.502,0.001C68.412,0.001,0,68.412,0,152.501s68.412,152.5,152.502,152.5c84.089,0,152.5-68.411,152.5-152.5
@@ -45,8 +46,8 @@
                                 </svg>
                                 <div class="text-lg font-semibold flex gap-2"><span>Answred by</span>
                                     <div class="flex justify-center items-center gap-2"> <img alt="laravel-logo"
-                                            loading="lazy" width="25" height="25" class="rounded-sm" decoding="async"
-                                            data-nimg="1" style="color:transparent"
+                                            loading="lazy" width="25" height="25" class="rounded-sm"
+                                            decoding="async" data-nimg="1" style="color:transparent"
                                             src="{{ asset('storage/' . $post->responses->where('answer', 1)->first()->user->avatar) }}"><span
                                             class="text-blue-700 dark:text-blue-500">{{ $post->responses->where('answer', 1)->first()->user->name }}</span>
                                     </div>
@@ -57,37 +58,48 @@
                     <h3 class="mb-2 text-xl font-bold dark:text-white">{{ $post->title }}</h3>
                     <div class="flex gap-2 justify-start items-center flex-row">
                         @forelse ($post->responses->unique('user_id') as $response)
-                        @if ($loop->index < 10)
-                            <img alt="laravel-logo" loading="lazy" width="25" height="25" class="rounded-sm"
-                                decoding="async" data-nimg="1" style="color:transparent"
-                                src="{{ asset('storage/' . $response->user->avatar) }}">
+                            @if ($loop->index < 10)
+                                <img alt="laravel-logo" loading="lazy" width="25" height="25" class="rounded-sm"
+                                    decoding="async" data-nimg="1" style="color:transparent"
+                                    src="{{ asset('storage/' . $response->user->avatar) }}">
+                            @endif
+                        @empty
+                            <p class="text-gray-600 dark:text-gray-500">Be the first to answer this post!</p>
+                        @endforelse
+                        @if ($post->responses->unique('user_id')->count() > 10)
+                            <p class="text-gray-600 dark:text-gray-500">And many more have responded...</p>
                         @endif
-                    @empty
-                        <p class="text-gray-600 dark:text-gray-500">Be the first to answer this post!</p>
-                    @endforelse
-                    @if ($post->responses->unique('user_id')->count() > 10)
-                        <p class="text-gray-600 dark:text-gray-500">And many more have responded...</p>
-                    @endif                
                     </div>
                 </div>
             </a>
             @if (auth()->check() && auth()->user()->id === $post->user->id)
-            <div class="absolute bottom-6 right-6 text-gray-600 dark:text-gray-500">
-                <svg data-dropdown-toggle="dropdown{{$post->id}}" id="dropdownDefaultButton{{$post->id}}" fill="currentColor" height="16" icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path>
-                </svg>
-                <div id="dropdown{{$post->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton{{$post->id}}">
-                        <li>
-                            <button type="button" data-post-id={{$post->id}} class="edit-post-button block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit post</button>
-                        </li>
-                        <li>
-                            <button type="button" data-post-id={{$post->id}} class="delete-post-button block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete Post</button>
-                        </li>
-                    </ul>
+                <div class="absolute bottom-6 right-6 text-gray-600 dark:text-gray-500">
+                    <svg data-dropdown-toggle="dropdown{{ $post->id }}"
+                        id="dropdownDefaultButton{{ $post->id }}" fill="currentColor" height="16"
+                        icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M6 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z">
+                        </path>
+                    </svg>
+                    <div id="dropdown{{ $post->id }}"
+                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                            aria-labelledby="dropdownDefaultButton{{ $post->id }}">
+                            <li>
+                                <button type="button" data-post-id={{ $post->id }}
+                                    class="edit-post-model-button block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full">Edit
+                                    post</button>
+                            </li>
+                            <li>
+                                <button type="button" data-post-id={{ $post->id }}
+                                    class="delete-post-button block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full">Delete
+                                    Post</button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        @endif        
+            @endif
         </div>
     @empty
         <div>
@@ -104,7 +116,7 @@
     {{ $posts->links() }}
 </div>
 <x-modal name="confirm-post-create" maxWidth="xl">
-    <form method="post" class="p-6 hidden create-post-form" data-thread-id="{{$thread->id}}">
+    <form method="post" class="p-6 hidden create-post-form" data-thread-id="{{ $thread->id }}">
         @csrf
 
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -117,17 +129,17 @@
 
         <div class="mt-1">
             <x-input-label for="title" :value="__('title')" />
-            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800"
-                required autofocus autocomplete="title" placeholder="enter post title"/>
+            <x-text-input id="title" name="title" type="text"
+                class="mt-1 block w-full bg-gray-50 dark:bg-gray-800" required autofocus autocomplete="title"
+                placeholder="enter post title" />
             <x-input-error class="mt-2" :messages="$errors->get('title')" />
         </div>
         <div
             class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
             <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
                 <label for="editor" class="sr-only">Edit reply</label>
-                <textarea id="reply-editor" rows="8"
-                    name="content"
-                    class="reply-textarea block w-full px-0 text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                <textarea id="reply-editor" rows="8" name="content"
+                    class="reply-textarea block w-full px-0 text-gray-800  bg-white border-0 dark:bg-gray-800 focus:ring-0  dark:placeholder-gray-400"
                     placeholder="enter post content..." required></textarea>
             </div>
         </div>
@@ -144,7 +156,7 @@
     </form>
 </x-modal>
 <x-modal name="confirm-post-edit" maxWidth="xl">
-    <form method="post" class="p-6 hidden edit-post-form" data-thread-id="{{$thread->id}}">
+    <form method="post" class="p-6 hidden edit-post-form" data-thread-id="{{ $thread->id }}">
         @csrf
 
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -157,16 +169,16 @@
 
         <div class="mt-1">
             <x-input-label for="title" :value="__('title')" />
-            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800"
-                required autofocus autocomplete="title" placeholder="enter post title"/>
+            <x-text-input id="title" name="title" type="text"
+                class="mt-1 block w-full bg-gray-50 dark:bg-gray-800" required autofocus autocomplete="title"
+                placeholder="enter post title" />
             <x-input-error class="mt-2" :messages="$errors->get('title')" />
         </div>
         <div
             class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
             <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
                 <label for="editor" class="sr-only">Edit reply</label>
-                <textarea id="reply-editor" rows="8"
-                    name="content"
+                <textarea id="reply-editor" rows="8" name="content"
                     class="reply-textarea block w-full px-0 text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                     placeholder="enter post content..." required></textarea>
             </div>

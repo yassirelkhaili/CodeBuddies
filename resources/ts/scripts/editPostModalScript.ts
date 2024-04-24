@@ -3,8 +3,10 @@
  * @license GPL-3.0
  * **/
 
+import postService from "../services/postService";
+
 const openButton = document.querySelectorAll(
-    ".edit-post-button"
+    ".edit-post-model-button"
 ) as NodeListOf<HTMLButtonElement>;
 const cancelButton = document.querySelectorAll(
     ".cancel-edit-post-modal-element"
@@ -22,6 +24,15 @@ export async function toggleeditModal(event: MouseEvent = null): Promise<void> {
     if (event !== null) event.stopPropagation();
     editModal &&
         editModal.forEach(async (editModal: HTMLFormElement): Promise<void> => {
+            if (event) {
+                const eventTarget = event.currentTarget as HTMLButtonElement;
+                if (eventTarget.getAttribute("data-post-id")) {
+                    const response: {title: string, content: string} = await postService.fetchPost(eventTarget.getAttribute("data-post-id"));
+                    editModal.setAttribute("data-post-id", eventTarget.getAttribute("data-post-id"));
+                    (editModal.querySelector("input[name='title']") as HTMLInputElement).value = response.title;
+                    (editModal.querySelector("textarea") as HTMLTextAreaElement).value = response.content;                    
+                }
+            }
             editModal.classList.toggle("hidden");
             editModal.parentElement.parentElement.classList.toggle("hidden");
             iseditModalOpen = !iseditModalOpen;
