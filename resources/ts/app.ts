@@ -12,3 +12,5 @@ import "./scripts/handlePostsScript";
 import "./scripts/createPostModalScript";
 import "./scripts/editPostModalScript";
 import "./scripts/aboutButtonScript";
+import "./scripts/modifyContentDropdownScript";
+import "./scripts/createThreadModalScript";

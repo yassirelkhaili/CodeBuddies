@@ -74,18 +74,16 @@
             </a>
             @if (auth()->check() && auth()->user()->id === $post->user->id)
                 <div class="absolute bottom-6 right-6 text-gray-600 dark:text-gray-500">
-                    <svg data-dropdown-toggle="dropdown{{ $post->id }}"
-                        id="dropdownDefaultButton{{ $post->id }}" fill="currentColor" height="16"
+                    <svg class="dropdown-toggle-button" data-post-id="{{$post->id}}" fill="currentColor" height="16"
                         icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M6 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z">
                         </path>
                     </svg>
-                    <div id="dropdown{{ $post->id }}"
-                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdownDefaultButton{{ $post->id }}">
+                    <div id="dropdown-{{ $post->id }}"
+                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute right-0">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                             <li>
                                 <button type="button" data-post-id={{ $post->id }}
                                     class="edit-post-model-button block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full">Edit
@@ -139,7 +137,7 @@
             <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
                 <label for="editor" class="sr-only">Edit reply</label>
                 <textarea id="reply-editor" rows="8" name="content"
-                    class="reply-textarea block w-full px-0 text-gray-800  bg-white border-0 dark:bg-gray-800 focus:ring-0  dark:placeholder-gray-400"
+                    class="reply-textarea block w-full px-0 text-gray-300  bg-white border-0 dark:bg-gray-800 focus:ring-0  dark:placeholder-gray-400"
                     placeholder="enter post content..." required></textarea>
             </div>
         </div>

@@ -18,7 +18,7 @@ class SearchService {
 
     public async handleThreadFilter(filterInput: string, threadId: string): Promise<string> {
         try {
-            const response = await axios.get<string>(`${this.BASE_URL}/${threadId}/posts/filter`, {
+            const response = await axios.get<string>(`${this.BASE_URL}/${threadId}/threads/filter`, {
                 params: { query: filterInput },
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             });
