@@ -1,6 +1,6 @@
 import { toggleDeleteModal } from "./scripts/deleteModalScript";
 import { toggleEditModal } from "./scripts/editModalScript";
-import handleThreadEditModal from "./scripts/editThreadModalScript";
+import handleThreadEditModal, { toggleThreadEditModal } from "./scripts/editThreadModalScript";
 import replyService from "./services/replyService";
 import { handleReplyMarkAsAnswer, handleReplyUnmarkAsAnswer, handleReplyDownvote, handleReplyUpvote } from "./scripts/handleReplies";
 import hljs from "highlight.js";
@@ -52,8 +52,8 @@ export function reAttachPostEventListeners (): void {
 
 export function reAttachThreadEventListeners (): void {
     handlethreadModal();
-    handleThreadEditModal();
+    const editButtons = document.querySelectorAll(".edit-thread-model-button");
+    editButtons.forEach((editButton: HTMLButtonElement) => editButton && editButton.addEventListener("click", toggleThreadEditModal));
     handleDropDownToggle(ContentType.THREAD);
     handleThreadDeleteAction();
-    handleThreadEditAction();
 }

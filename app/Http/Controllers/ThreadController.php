@@ -86,8 +86,8 @@ class ThreadController extends Controller
     public function update(UpdateThreadRequest $request, int $threadId)
     {
         $description = $request->input('description');
-        $title = $request->input('title');
-        $this->threadRepository->update($threadId, ['description' => $description, 'title' => $title]);
+        $name = $request->input('name');
+        $this->threadRepository->update($threadId, ['description' => $description, 'name' => $name]);
         $thread = $this->threadRepository->getById($threadId);
         $threads = $this->threadRepository->getAllByForum($thread->forum->id);
         $viewTemplate = $request->ajax() ? "layouts.threads" : "forum-index";

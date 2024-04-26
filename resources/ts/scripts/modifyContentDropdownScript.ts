@@ -21,7 +21,7 @@ export const handleDropDownToggle = (contentType: ContentType) => {
             dropdown && dropdown.classList.toggle("hidden");
             const handleOutsideClick = () => {
                 document.addEventListener("click", (event: MouseEvent): void => {
-                    const currentTarget = event.currentTarget as HTMLElement;
+                    const currentTarget = event.target as HTMLElement;
                     if (dropdown && !dropdown.contains(currentTarget)) {
                         dropdown.classList.toggle("hidden");
                     }
