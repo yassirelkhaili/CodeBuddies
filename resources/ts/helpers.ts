@@ -1,9 +1,14 @@
 import { toggleDeleteModal } from "./scripts/deleteModalScript";
 import { toggleEditModal } from "./scripts/editModalScript";
+import handleThreadEditModal from "./scripts/editThreadModalScript";
 import replyService from "./services/replyService";
 import { handleReplyMarkAsAnswer, handleReplyUnmarkAsAnswer, handleReplyDownvote, handleReplyUpvote } from "./scripts/handleReplies";
 import hljs from "highlight.js";
 import { handlePostDownvote, handlePostUpvote } from "./scripts/handlePostsScript";
+import handlethreadModal from "./scripts/createThreadModalScript";
+import { ContentType, handleDropDownToggle } from "./scripts/modifyContentDropdownScript";
+import { handleThreadDeleteAction, handleThreadEditAction } from "./scripts/handleThreads";
+import handleeditModal from "./scripts/editPostModalScript";
 
 export default function extractForumIdFromUrl (): string {
     const pathname: string = window.location.pathname;
@@ -43,4 +48,12 @@ export function reAttachEventListeners (): void {
 export function reAttachPostEventListeners (): void {
     handlePostDownvote();
     handlePostUpvote();
+}
+
+export function reAttachThreadEventListeners (): void {
+    handlethreadModal();
+    handleThreadEditModal();
+    handleDropDownToggle(ContentType.THREAD);
+    handleThreadDeleteAction();
+    handleThreadEditAction();
 }

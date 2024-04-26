@@ -5,9 +5,6 @@
             <div class="p-5">
                 <div class="flex flex-row justify-between items-center mb-2">
                     <div class="flex justify-center items-center gap-2 text-blue-700 dark:text-blue-500 flex-wrap">
-                        <img alt="laravel-logo" loading="lazy" width="25" height="25" class="rounded-sm"
-                            decoding="async" data-nimg="1" style="color:transparent"
-                            src="{{ asset('storage/' . $thread->user->avatar) }}">
                         <p class="text-blue-700 dark:text-blue-500 text-lg font-semibold">{{ $thread->user->name }}
                             <span class="text-gray-600 dark:text-gray-500">·</span>
                             {{ $thread->created_at->format('d M') }}
@@ -51,7 +48,8 @@
         </a>
         @if (auth()->check() && auth()->user()->id === $thread->user->id)
             <div class="absolute bottom-6 right-6 text-gray-600 dark:text-gray-500">
-                <svg data-dropdown-toggle="dropdown{{ $thread->id }}"
+                <svg class="dropdown-toggle-button"
+                data-thread-id={{$thread->id}}
                     id="dropdownDefaultButton{{ $thread->id }}" fill="currentColor" height="16"
                     icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16"
                     xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +58,7 @@
                     </path>
                 </svg>
                 <div id="dropdown{{ $thread->id }}"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                    class="z-10 absolute right-0 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdownDefaultButton{{ $thread->id }}">
                         <li>
@@ -93,83 +91,3 @@
 <div class="mt-4">
     {{ $threads->links() }}
 </div>
-<x-modal name="confirm-thread-create" maxWidth="xl">
-    <form method="post" class="p-6 hidden create-thread-form" data-thread-id="{{ $thread->id }}">
-        @csrf
-
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Fill up the fields below to create a thread') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once this thread is added, you can access it below and click to see its progress.') }}
-        </p>
-
-        <div class="mt-1">
-            <x-input-label for="title" :value="__('title')" />
-            <x-text-input id="title" name="title" type="text"
-                class="mt-1 block w-full bg-gray-50 dark:bg-gray-800" required autofocus autocomplete="title"
-                placeholder="enter thread title" />
-            <x-input-error class="mt-2" :messages="$errors->get('title')" />
-        </div>
-        <div
-            class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-            <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
-                <label for="editor" class="sr-only">Edit reply</label>
-                <textarea id="reply-editor" rows="8" name="content"
-                    class="reply-textarea block w-full px-0 text-gray-300  bg-white border-0 dark:bg-gray-800 focus:ring-0  dark:placeholder-gray-400"
-                    placeholder="enter thread content..." required></textarea>
-            </div>
-        </div>
-
-        <div class="mt-6 flex justify-end">
-            <x-secondary-button class="cancel-thread-modal-element">
-                {{ __('Cancel') }}
-            </x-secondary-button>
-
-            <x-primary-button class="ms-3">
-                {{ __('Create thread') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-modal>
-<x-modal name="confirm-thread-edit" maxWidth="xl">
-    <form method="thread" class="p-6 hidden edit-thread-form" data-thread-id="{{ $thread->id }}">
-        @csrf
-
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Fill up the fields below to edit a thread') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once this thread is edited, its information will be permanently altered.') }}
-        </p>
-
-        <div class="mt-1">
-            <x-input-label for="title" :value="__('title')" />
-            <x-text-input id="title" name="title" type="text"
-                class="mt-1 block w-full bg-gray-50 dark:bg-gray-800" required autofocus autocomplete="title"
-                placeholder="enter thread title" />
-            <x-input-error class="mt-2" :messages="$errors->get('title')" />
-        </div>
-        <div
-            class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-            <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
-                <label for="editor" class="sr-only">Edit reply</label>
-                <textarea id="reply-editor" rows="8" name="content"
-                    class="reply-textarea block w-full px-0 text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-                    placeholder="enter thread content..." required></textarea>
-            </div>
-        </div>
-
-        <div class="mt-6 flex justify-end">
-            <x-secondary-button class="cancel-edit-thread-modal-element">
-                {{ __('Cancel') }}
-            </x-secondary-button>
-
-            <x-warning-button class="ms-3">
-                {{ __('Edit Thread') }}
-            </x-warning-button>
-        </div>
-    </form>
-</x-modal>

@@ -2,6 +2,7 @@
  * @author Yassir Elkhaili
  * @license GPL-3.0
  * **/
+import postService from "../services/postService";
 
 export enum ContentType {
     THREAD = "thread",
@@ -16,12 +17,12 @@ export const handleDropDownToggle = (contentType: ContentType) => {
             event.stopPropagation();
             const eventTarget = event.currentTarget as SVGAElement;
             const contentId: string = eventTarget.hasAttribute(`data-${contentType}-id`) ? eventTarget.getAttribute(`data-${contentType}-id`) : "";
-            const dropdown = document.getElementById(`dropdown-${contentId}`);
-            dropdown.classList.toggle("hidden");
+            const dropdown = document.getElementById(`dropdown${contentId}`);
+            dropdown && dropdown.classList.toggle("hidden");
             const handleOutsideClick = () => {
                 document.addEventListener("click", (event: MouseEvent): void => {
                     const currentTarget = event.currentTarget as HTMLElement;
-                    if (!dropdown.contains(currentTarget)) {
+                    if (dropdown && !dropdown.contains(currentTarget)) {
                         dropdown.classList.toggle("hidden");
                     }
                 })

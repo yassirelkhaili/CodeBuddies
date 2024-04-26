@@ -42,21 +42,29 @@ class ThreadController extends Controller
         return view($viewTemplate, ["threads" => $results])->render();
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function fetchThread(int $threadId)
     {
-        //
+        try {
+            $threadDescription = $this->threadRepository->getById($threadId)->description;
+            $threadTitle = $this->threadRepository->getById($threadId)->name;
+            return response()->json(["title" => $threadTitle, "content" => $threadDescription]);
+        } catch (ModelNotFoundException $error) {
+            return response()->json("The requested thread could not be found. ErrorCode: $error");
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreThreadRequest $request)
+    public function store(StoreThreadRequest $request): view | string
     {
-        //
+        $description = $request->input('description');
+        $name = $request->input('name');
+        $forumId = $request->input('forum_id');
+        $this->threadRepository->create(['description' => $description, 'name' => $name, 'forum_id' => $forumId, 'user_id' => auth()->user()->id]);
+        $threads = $this->threadRepository->getAllByForum($forumId);
+        $viewTemplate = $request->ajax() ? "layouts.threads" : "forum-index";
+        return view($viewTemplate, ["threads" => $threads])->render();
     }
 
     /**
@@ -72,28 +80,29 @@ class ThreadController extends Controller
             return redirect()->back()->with('status', 'The requested thread could not be found. ErrorCode: ' . $error);
         }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Thread $thread)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateThreadRequest $request, Thread $thread)
+    public function update(UpdateThreadRequest $request, int $threadId)
     {
-        //
+        $description = $request->input('description');
+        $title = $request->input('title');
+        $this->threadRepository->update($threadId, ['description' => $description, 'title' => $title]);
+        $thread = $this->threadRepository->getById($threadId);
+        $threads = $this->threadRepository->getAllByForum($thread->forum->id);
+        $viewTemplate = $request->ajax() ? "layouts.threads" : "forum-index";
+        return view($viewTemplate, ["threads" => $threads])->render();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Thread $thread)
+    public function destroy(Request $request, int $threadId)
     {
-        //
+        $thread = $this->threadRepository->getById($threadId);
+        $this->threadRepository->delete($threadId);
+        $threads = $this->threadRepository->getAllByForum($thread->forum->id);
+        $viewTemplate = $request->ajax() ? "layouts.threads" : "forum-index";
+        return view($viewTemplate, ["threads" => $threads])->render();
     }
 }

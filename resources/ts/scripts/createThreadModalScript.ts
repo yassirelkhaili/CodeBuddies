@@ -30,6 +30,7 @@ export async function togglethreadModal(event: MouseEvent = null): Promise<void>
 
 export default function handlethreadModal(): void {
     document.addEventListener("click", (event: MouseEvent): void => {
+        event.stopPropagation();
         const eventTarget = event.target as HTMLElement;
         threadModal &&
             threadModal.forEach((threadModal: HTMLFormElement) => {
@@ -45,4 +46,3 @@ export default function handlethreadModal(): void {
 }
 
 handlethreadModal();
-

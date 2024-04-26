@@ -14,3 +14,5 @@ import "./scripts/editPostModalScript";
 import "./scripts/aboutButtonScript";
 import "./scripts/modifyContentDropdownScript";
 import "./scripts/createThreadModalScript";
+import "./scripts/handleThreads";
+import "./scripts/editThreadModalScript";

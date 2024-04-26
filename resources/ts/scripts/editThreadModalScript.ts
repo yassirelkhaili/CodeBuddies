@@ -3,16 +3,16 @@
  * @license GPL-3.0
  * **/
 
-import postService from "../services/postService";
+import threadService from "../services/threadService";
 
 const openButton = document.querySelectorAll(
-    ".edit-post-model-button"
+    ".edit-thread-model-button"
 ) as NodeListOf<HTMLButtonElement>;
 const cancelButton = document.querySelectorAll(
-    ".cancel-edit-post-modal-element"
+    ".cancel-edit-thread-modal-element"
 ) as NodeListOf<HTMLButtonElement>;
 const editModal = document.querySelectorAll(
-    ".edit-post-form"
+    ".edit-thread-form"
 ) as NodeListOf<HTMLFormElement>;
 const actionButtons: Array<HTMLButtonElement> = [
     ...openButton,
@@ -20,17 +20,17 @@ const actionButtons: Array<HTMLButtonElement> = [
 ];
 let iseditModalOpen: boolean = false;
 
-export async function toggleeditModal(event: MouseEvent = null): Promise<void> {
+export async function toggleThreadEditModal(event: MouseEvent = null): Promise<void> {
     if (event !== null) event.stopPropagation();
     editModal &&
         editModal.forEach(async (editModal: HTMLFormElement): Promise<void> => {
             if (event) {
                 const eventTarget = event.currentTarget as HTMLButtonElement;
-                if (eventTarget.getAttribute("data-post-id")) {
-                    const response: {title: string, content: string} = await postService.fetchPost(eventTarget.getAttribute("data-post-id"));
-                    editModal.setAttribute("data-post-id", eventTarget.getAttribute("data-post-id"));
-                    (editModal.querySelector("input[name='title']") as HTMLInputElement).value = response.title;
-                    (editModal.querySelector("textarea") as HTMLTextAreaElement).value = response.content;                    
+                if (eventTarget.getAttribute("data-thread-id")) {
+                    const response: {title: string, content: string} = await threadService.fetchThread(eventTarget.getAttribute("data-thread-id"));
+                    editModal.setAttribute("data-thread-id", eventTarget.getAttribute("data-thread-id"));
+                    (editModal.querySelector("input[name='name']") as HTMLInputElement).value = response.title;
+                    (editModal.querySelector("textarea[name='description']") as HTMLTextAreaElement).value = response.content;                    
                 }
             }
             editModal.classList.toggle("hidden");
@@ -39,7 +39,7 @@ export async function toggleeditModal(event: MouseEvent = null): Promise<void> {
         });
 }
 
-export default function handleeditModal(): void {
+export default function handleThreadEditModal(): void {
     document.addEventListener("click", (event: MouseEvent): void => {
         const eventTarget = event.target as HTMLElement;
         editModal &&
@@ -47,13 +47,12 @@ export default function handleeditModal(): void {
                 if (editModal)
                     !editModal.contains(eventTarget) &&
                         iseditModalOpen &&
-                        toggleeditModal();
+                        toggleThreadEditModal();
             });
     });
     actionButtons.forEach((actionButton: HTMLButtonElement): void => {
-        console.log("accessed")
-        actionButton && actionButton.addEventListener("click", toggleeditModal);
+        actionButton && actionButton.addEventListener("click", toggleThreadEditModal);
     });
 }
 
-handleeditModal();
+handleThreadEditModal();

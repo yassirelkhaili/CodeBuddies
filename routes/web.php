@@ -44,9 +44,12 @@ Route::get('/reset-password/{token}', [AuthController::class, 'indexResetPasswor
 Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'])->name('reset-password');
 Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 Route::get("/posts/resource/fetch/{id}", [PostController::class, 'fetchPost'])->name('post.fetch');
+Route::get("/threads/resource/fetch/{id}", [ThreadController::class, 'fetchThread'])->name('therad.fetch');
 Route::middleware(['auth'])->group(function () {
-    //Thread Routes
+    //Post Routes
     Route::resource('/posts/resource', PostController::class)->middleware(['throttle:8,1']);
+    //Thread Routes
+    Route::resource('/threads/resource', ThreadController::class)->middleware(['throttle:8,1']);
     //Resource Routes
     Route::post("/replies/mark/{id}", [ResponseController::class, 'mark'])->name("response.mark");
     Route::post("/replies/unmark/{id}", [ResponseController::class, 'unmark'])->name("response.unmark");
