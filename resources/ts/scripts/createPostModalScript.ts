@@ -9,9 +9,9 @@ const openButton = document.querySelectorAll(
 const cancelButton = document.querySelectorAll(
     ".cancel-post-modal-element"
 ) as NodeListOf<HTMLButtonElement>;
-const postModal = document.querySelectorAll(
+const postModal = document.querySelector(
     ".create-post-form"
-) as NodeListOf<HTMLFormElement>;
+) as HTMLFormElement;
 const actionButtons: Array<HTMLButtonElement> = [
     ...openButton,
     ...cancelButton,
@@ -20,25 +20,19 @@ let isPostModalOpen: boolean = false;
 
 export async function togglepostModal(event: MouseEvent = null): Promise<void> {
     if (event !== null) event.stopPropagation();
-    postModal &&
-        postModal.forEach(async (postModal: HTMLFormElement): Promise<void> => {
-            postModal.classList.toggle("hidden");
-            postModal.parentElement.parentElement.classList.toggle("hidden");
-            isPostModalOpen = !isPostModalOpen;
-        });
+    postModal.classList.toggle("hidden");
+    postModal.parentElement.parentElement.classList.toggle("hidden");
+    isPostModalOpen = !isPostModalOpen;
 }
 
 export default function handlepostModal(): void {
     document.addEventListener("click", (event: MouseEvent): void => {
         const eventTarget = event.target as HTMLElement;
-        postModal &&
-            postModal.forEach((postModal: HTMLFormElement) => {
                 if (postModal)
                     !postModal.contains(eventTarget) &&
                         isPostModalOpen &&
                         togglepostModal();
             });
-    });
     actionButtons.forEach((actionButton: HTMLButtonElement): void => {
         actionButton && actionButton.addEventListener("click", togglepostModal);
     });

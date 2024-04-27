@@ -19,7 +19,6 @@ import { toggleEditModal } from "./editModalScript";
                     const searchValue: string = searchInput.value;
                     searchInput.value = "";
                     const postId: string = extractPostIdFromUrl();
-                    console.log(postId);
                     const response: string = await replyService.handleReplySubmission(searchValue, postId);
                     document.getElementById("post-reply-results").innerHTML = response;
                     reAttachEventListeners();

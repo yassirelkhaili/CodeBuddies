@@ -74,8 +74,7 @@
             </a>
             @if (auth()->check() && auth()->user()->id === $post->user->id)
                 <div class="absolute bottom-6 right-6 text-gray-600 dark:text-gray-500">
-                    <svg data-dropdown-toggle="dropdown{{ $post->id }}"
-                        id="dropdownDefaultButton{{ $post->id }}" fill="currentColor" height="16"
+                    <svg class="dropdown-toggle-button" data-post-id="{{$post->id}}" fill="currentColor" height="16"
                         icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -83,9 +82,8 @@
                         </path>
                     </svg>
                     <div id="dropdown{{ $post->id }}"
-                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdownDefaultButton{{ $post->id }}">
+                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute right-0">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                             <li>
                                 <button type="button" data-post-id={{ $post->id }}
                                     class="edit-post-model-button block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full">Edit
@@ -115,83 +113,3 @@
 <div class="mt-4">
     {{ $posts->links() }}
 </div>
-<x-modal name="confirm-post-create" maxWidth="xl">
-    <form method="post" class="p-6 hidden create-post-form" data-thread-id="{{ $thread->id }}">
-        @csrf
-
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Fill up the fields below to create a post') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once this post is added, you can access it below and click to see its progress.') }}
-        </p>
-
-        <div class="mt-1">
-            <x-input-label for="title" :value="__('title')" />
-            <x-text-input id="title" name="title" type="text"
-                class="mt-1 block w-full bg-gray-50 dark:bg-gray-800" required autofocus autocomplete="title"
-                placeholder="enter post title" />
-            <x-input-error class="mt-2" :messages="$errors->get('title')" />
-        </div>
-        <div
-            class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-            <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
-                <label for="editor" class="sr-only">Edit reply</label>
-                <textarea id="reply-editor" rows="8" name="content"
-                    class="reply-textarea block w-full px-0 text-gray-800  bg-white border-0 dark:bg-gray-800 focus:ring-0  dark:placeholder-gray-400"
-                    placeholder="enter post content..." required></textarea>
-            </div>
-        </div>
-
-        <div class="mt-6 flex justify-end">
-            <x-secondary-button class="cancel-post-modal-element">
-                {{ __('Cancel') }}
-            </x-secondary-button>
-
-            <x-primary-button class="ms-3">
-                {{ __('Create Post') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-modal>
-<x-modal name="confirm-post-edit" maxWidth="xl">
-    <form method="post" class="p-6 hidden edit-post-form" data-thread-id="{{ $thread->id }}">
-        @csrf
-
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Fill up the fields below to edit a post') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once this post is edited, its information will be permanently altered.') }}
-        </p>
-
-        <div class="mt-1">
-            <x-input-label for="title" :value="__('title')" />
-            <x-text-input id="title" name="title" type="text"
-                class="mt-1 block w-full bg-gray-50 dark:bg-gray-800" required autofocus autocomplete="title"
-                placeholder="enter post title" />
-            <x-input-error class="mt-2" :messages="$errors->get('title')" />
-        </div>
-        <div
-            class="mt-2 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-            <div class="px-4 py-3 bg-white rounded-lg dark:bg-gray-800">
-                <label for="editor" class="sr-only">Edit reply</label>
-                <textarea id="reply-editor" rows="8" name="content"
-                    class="reply-textarea block w-full px-0 text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-                    placeholder="enter post content..." required></textarea>
-            </div>
-        </div>
-
-        <div class="mt-6 flex justify-end">
-            <x-secondary-button class="cancel-edit-post-modal-element">
-                {{ __('Cancel') }}
-            </x-secondary-button>
-
-            <x-warning-button class="ms-3">
-                {{ __('Edit Post') }}
-            </x-warning-button>
-        </div>
-    </form>
-</x-modal>

@@ -21,17 +21,23 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
-    ]; 
+    ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
-    public function responses() {
+    public function responses()
+    {
         return $this->hasMany(Response::class);
+    }
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }

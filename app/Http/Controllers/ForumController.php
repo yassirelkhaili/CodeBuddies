@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Forum;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreForumRequest;
@@ -29,19 +28,22 @@ class ForumController extends Controller
 
     public function search(Request $request): View | String
     {
-        echo "accessed";
         $searchInput = $request->input('query');
         $results = isset($searchInput) ? $this->forumRepository->search($searchInput) : $this->forumRepository->getAll();
         $viewTemplate = $request->ajax() ? "layouts.forums" : "forums";
         return view($viewTemplate, ["forums" => $results])->render();
     }
-    
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function fetchForum(int $forumId)
     {
-        //
+        try {
+            $forumDescription = $this->forumRepository->getById($forumId)->description;
+            $forumTitle = $this->forumRepository->getById($forumId)->name;
+            $forumAvatar = $this->forumRepository->getById($forumId)->avatar;
+            return response()->json(["title" => $forumTitle, "content" => $forumDescription, "avatar" => $forumAvatar]);
+        } catch (ModelNotFoundException $error) {
+            return response()->json("The requested response could not be found. ErrorCode: $error");
+        }
     }
 
     /**
@@ -49,7 +51,13 @@ class ForumController extends Controller
      */
     public function store(StoreForumRequest $request)
     {
-        //
+        $description = $request->input("description");
+        $title = $request->input('name');
+        $avatar = $request->input('avatar');
+        $this->forumRepository->create(["name" => $title, "description" => $description, "avatar" => $avatar]);
+        $forums = $this->forumRepository->getAll();
+        $viewTemplate = $request->ajax() ? "layouts.forums" : "forums";
+        return view($viewTemplate, ["forums" => $forums])->render();
     }
 
     /**
@@ -62,32 +70,32 @@ class ForumController extends Controller
             $threads = $result->threads()->orderBy('created_at', 'desc')->paginate(9);
             return view("forum-index")->with(["forum" => $result, "threads" => $threads]);
         } catch (ModelNotFoundException $error) {
-            echo "hello";
             return redirect()->back()->with('status', 'The requested forum could not be found. ErrorCode: ' . $error);
         }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Forum $forum)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateForumRequest $request, Forum $forum)
+    public function update(UpdateForumRequest $request, int $forumId)
     {
-        //
+        $description = $request->input("description");
+        $title = $request->input('name');
+        $avatar = $request->input('avatar');
+        $this->forumRepository->update($forumId, ["name" => $title, "description" => $description, "avatar" => $avatar]);
+        $forums = $this->forumRepository->getAll();
+        $viewTemplate = $request->ajax() ? "layouts.forums" : "forums";
+        return view($viewTemplate, ["forums" => $forums])->render();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Forum $forum)
+    public function destroy(Request $request, int $forumId)
     {
-        //
+        $this->forumRepository->delete($forumId);
+        $forums = $this->forumRepository->getAll();
+        $viewTemplate = $request->ajax() ? "layouts.forums" : "forums";
+        return view($viewTemplate, ["forums" => $forums])->render();
     }
 }

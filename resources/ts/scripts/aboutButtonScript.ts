@@ -8,6 +8,5 @@ document.addEventListener("DOMContentLoaded", () => {
     aboutButton && aboutButton.addEventListener("click", () => {
         const aboutSectionHeight: number = document.getElementById("tech-section").offsetTop - 100;
         scrollTo(0, aboutSectionHeight);
-        console.log(document.getElementById("tech-section"))
     })
 })

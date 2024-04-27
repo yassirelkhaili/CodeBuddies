@@ -1,9 +1,18 @@
 import { toggleDeleteModal } from "./scripts/deleteModalScript";
 import { toggleEditModal } from "./scripts/editModalScript";
+import { toggleThreadEditModal } from "./scripts/editThreadModalScript";
 import replyService from "./services/replyService";
 import { handleReplyMarkAsAnswer, handleReplyUnmarkAsAnswer, handleReplyDownvote, handleReplyUpvote } from "./scripts/handleReplies";
 import hljs from "highlight.js";
-import { handlePostDownvote, handlePostUpvote } from "./scripts/handlePostsScript";
+import { handlePostDeleteAction, handlePostDownvote, handlePostEditAction, handlePostUpvote } from "./scripts/handlePostsScript";
+import handlethreadModal from "./scripts/createThreadModalScript";
+import { ContentType, handleDropDownToggle } from "./scripts/modifyContentDropdownScript";
+import { handleThreadDeleteAction } from "./scripts/handleThreads";
+import { handleForumforumDeleteAction, handleforumEditAction } from "./scripts/handleForums";
+import { toggleForumEditModal } from "./scripts/editForumModalScript";
+import handleforumModal from "./scripts/createForumModalScript";
+import handlepostModal, { togglepostModal } from "./scripts/createPostModalScript";
+import { togglePostEditModal } from "./scripts/editPostModalScript";
 
 export default function extractForumIdFromUrl (): string {
     const pathname: string = window.location.pathname;
@@ -43,4 +52,24 @@ export function reAttachEventListeners (): void {
 export function reAttachPostEventListeners (): void {
     handlePostDownvote();
     handlePostUpvote();
+    handleDropDownToggle(ContentType.POST);
+    handlePostDeleteAction();
+    const editButtons = document.querySelectorAll(".edit-post-model-button");
+    editButtons.forEach((editButton: HTMLButtonElement) => editButton && editButton.addEventListener("click", togglePostEditModal));
+}
+
+export function reAttachThreadEventListeners (): void {
+    handlethreadModal();
+    const editButtons = document.querySelectorAll(".edit-thread-model-button");
+    editButtons.forEach((editButton: HTMLButtonElement) => editButton && editButton.addEventListener("click", toggleThreadEditModal));
+    handleDropDownToggle(ContentType.THREAD);
+    handleThreadDeleteAction();
+}
+
+export function reAttachForumEventListeners (): void {
+    handleforumModal();
+    const editButtons = document.querySelectorAll(".edit-forum-model-button");
+    editButtons.forEach((editButton: HTMLButtonElement) => editButton && editButton.addEventListener("click", toggleForumEditModal));
+ handleDropDownToggle(ContentType.FORUM);
+ handleForumforumDeleteAction();
 }

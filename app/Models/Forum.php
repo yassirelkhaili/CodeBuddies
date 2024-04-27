@@ -13,6 +13,7 @@ class Forum extends Model
         'name',
         'description',
         'is_active',
+        'avatar'
     ];
 
     public function threads()
