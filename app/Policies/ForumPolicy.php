@@ -21,38 +21,8 @@ class ForumPolicy
         return true; // Allow viewing forums for any user
     }
 
-    /**
-     * Determine whether the user can create forums.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
+    public function manage(User $user)
     {
-        return $user->role === 'admin';
-    }
-
-    /**
-     * Determine whether the user can update the Forum.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Forum  $Forum
-     * @return mixed
-     */
-    public function update(User $user, Forum $Forum)
-    {
-        return $user->role === 'admin';
-    }
-
-    /**
-     * Determine whether the user can delete the Forum.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Forum  $Forum
-     * @return mixed
-     */
-    public function delete(User $user, Forum $Forum)
-    {
-        return $user->role === 'admin';
+        return $user->isAdmin();
     }
 }

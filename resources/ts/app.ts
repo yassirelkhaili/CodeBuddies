@@ -16,3 +16,5 @@ import "./scripts/modifyContentDropdownScript";
 import "./scripts/createThreadModalScript";
 import "./scripts/handleThreads";
 import "./scripts/editThreadModalScript";
+import "./scripts/createForumModalScript";
+import "./scripts/handleForums";

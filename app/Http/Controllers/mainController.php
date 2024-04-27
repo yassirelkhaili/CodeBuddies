@@ -7,6 +7,9 @@ use App\Models\Forum;
 
 class mainController extends Controller
 {   
+    public function indexStats(): View {
+        return view('partials.stats');
+    }
     public function indexHome(): View
     {
         $topThreePopularForums = Forum::with([

@@ -45,7 +45,12 @@ Route::post('/reset-password', [AuthController::class, 'submitResetPasswordForm'
 Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 Route::get("/posts/resource/fetch/{id}", [PostController::class, 'fetchPost'])->name('post.fetch');
 Route::get("/threads/resource/fetch/{id}", [ThreadController::class, 'fetchThread'])->name('therad.fetch');
+Route::get("/forums/resource/fetch/{id}", [ForumController::class, 'fetchForum'])->name('forum.fetch');
 Route::middleware(['auth'])->group(function () {
+    //Forum Routes
+    Route::resource('/forums/resource', ForumController::class)->middleware(['throttle:8,1', 'can:manage,App\Models\Forum']);
+    //stats
+    Route::get('/statistics', [mainController::class, 'indexStats'])->middleware(['can:manage,App\Models\Forum'])->name("stats.show");
     //Post Routes
     Route::resource('/posts/resource', PostController::class)->middleware(['throttle:8,1']);
     //Thread Routes

@@ -1,6 +1,7 @@
 import postService from "../services/postService";
 import { reAttachPostEventListeners } from "../helpers";
-import { toggleEditModal } from "./editModalScript";
+import { togglepostModal } from "./createPostModalScript";
+import { togglePostEditModal } from "./editPostModalScript";
 
 export const handlePostUpvote = (): void => {
     const editButtons = document.querySelectorAll(".upvote-post-button") as NodeListOf<HTMLButtonElement>;
@@ -35,13 +36,11 @@ export const handlePostDownvote = (): void => {
 handlePostDownvote();
 
 export const handlePostCreation = (): void => {
-    const editModal = document.querySelectorAll(
+    const postModal = document.querySelector(
         ".create-post-form"
-    ) as NodeListOf<HTMLFormElement>;
-    editModal &&
-        editModal.forEach((editModal: HTMLFormElement): void => {
-            editModal &&
-                editModal.addEventListener("submit", async (event: SubmitEvent): Promise<void> => {
+    ) as HTMLFormElement;
+            postModal &&
+                postModal.addEventListener("submit", async (event: SubmitEvent): Promise<void> => {
                     event.preventDefault();
                     const eventTarget = event.target as HTMLFormElement;
                     const threadId = eventTarget.getAttribute("data-thread-id");
@@ -54,10 +53,10 @@ export const handlePostCreation = (): void => {
                         threadId,
                         formProps
                     );
-                    toggleEditModal();
                     document.getElementById("filter-results-posts").innerHTML = response;
+                    togglepostModal();
+                    reAttachPostEventListeners();
                 });
-        });
 };
 
 handlePostCreation();
@@ -79,11 +78,9 @@ export const handlePostDeleteAction = (): void => {
 handlePostDeleteAction();
 
 export const handlePostEditAction = (): void => {
-    const editModal = document.querySelectorAll(
+    const editModal = document.querySelector(
         ".edit-post-form"
-    ) as NodeListOf<HTMLFormElement>;
-    editModal &&
-        editModal.forEach((editModal: HTMLFormElement): void => {
+    ) as HTMLFormElement;
             editModal &&
                 editModal.addEventListener("submit", async (event: SubmitEvent): Promise<void> => {
                     event.preventDefault();
@@ -95,13 +92,13 @@ export const handlePostEditAction = (): void => {
                         formProps[key] = value;
                     });
                     const response: string = await postService.editPost(
-                        eventTarget.getAttribute("data-post-id"),
+                        postId,
                         formProps
                     );
-                    toggleEditModal();
                     document.getElementById("filter-results-posts").innerHTML = response;
+                    togglePostEditModal();
+                    reAttachPostEventListeners();
                 });
-        });
 };
 
 handlePostEditAction();
